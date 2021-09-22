@@ -1,5 +1,6 @@
 # Team-Project-30
 
+<hr style="border:2px solid gray"> </hr>
 
 Topic 2: California Wild Fire Detection and Prevetion
 
@@ -15,15 +16,15 @@ We intend to analyze the datasets available to identify high-risk-prone areas fo
 
 Approach:
 
-We will analyze the dataset to predict which areas are more prone to wildfires and show their spatial distribution and other insights. 
-Based on the past data notify the concerned authority about the likelihood of wildfire in a particular month. 
-We will develop a web application(MERN stack) which will notify the user of the likelihood of a wildfire in that area, it will also have a feature through which user can notify the authority of a wildfire.
+We will analyze the dataset to predict which areas are more prone to wildfires and show their spatial distribution and other insights.  <br/>
+Based on the past data notify the concerned authority about the likelihood of wildfire in a particular month.  <br/>
+We will develop a web application(MERN stack) which will notify the user of the likelihood of a wildfire in that area, it will also have a feature through which user can notify the authority of a wildfire. <br/>
 
 
 Persona:
 
-California Locals - They will get notified in case of a wildfire in their neighbourhood, they will also have a feature to notify the authority of a possible wildfire event.
-Admininstration/Authority - Administration will notify the locals and also receive alerts from them, they will also receive alerts from the ML model so that they can be better prepared.
+California Locals - They will get notified in case of a wildfire in their neighbourhood, they will also have a feature to notify the authority of a possible wildfire event. <br/>
+Admininstration/Authority - Administration will notify the locals and also receive alerts from them, they will also receive alerts from the ML model so that they can be better prepared. <br/>
 
 Dataset links:
 https://www.kaggle.com/ananthu017/california-wildfire-incidents-20132020 
