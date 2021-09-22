@@ -5,16 +5,18 @@ Topic 2: California Wild Fire Detection and Prevetion
 
 Introduction:
 
-Almost every year California experiences wildfire outbreaks which brings about serious concerns for the people living in California. From the available statistics, there are about 7.5k wildfire outbreaks happening in California every year. The wildfire also comes with a huge damage to the property and the environment. The California locals have to displace themselves from their homes either due to property damage, bad air quality, extreme heat or other indirect consequences. As per the available statistics in 2018 alone, 22k structures were destroyed in California because of the wildfires. In the same year the administration spent nearly 635 million dollars to suppress the wildfires. We need look at the ways how we could use technology
-to reduce the impact of wildifires.
+
+Almost every year California experiences wildfire outbreaks which brings about serious concerns for the people living in California. From the available statistics, there are about 7.5k wildfire outbreaks happening in California every year. The wildfire also comes with huge damage to the property and the environment. The California locals have to displace themselves from their homes either due to property damage, bad air quality, extreme heat, or other indirect consequences. As per the available statistics in 2018 alone, 22k structures were destroyed in California because of the wildfires. In the same year, the administration spent nearly 635 million dollars to suppress the wildfires. We need to look at the ways how we could use technology to reduce the impact of wildfires.
 
 Abstract: 
 
 
-We intend to analyze the datasets available to identify high risk prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occurs, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
+We intend to analyze the datasets available to identify high-risk-prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occur, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of a wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
 
 
 Dataset links:
+
+
 https://www.kaggle.com/ananthu017/california-wildfire-incidents-20132020 
 
 
