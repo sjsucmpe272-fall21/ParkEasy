@@ -1,5 +1,5 @@
 # Team-Project-30
-
+<hr style="border:2px solid gray"> </hr>
 Topic 1
 
 1. Introduction
@@ -17,6 +17,7 @@ We are expecting users who want to avail parking lots and parking lot maintainer
 
 5. Dataset Links
 https://www.kaggle.com/dcshah/bay-wheels-2019-data/activity
+<hr style="border:2px solid gray"> </hr>
 
 Topic 2: California Wild Fire Detection and Prevetion
 
@@ -30,10 +31,19 @@ Abstract:
 
 We intend to analyze the datasets available to identify high-risk-prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occur, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of a wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
 
+Approach:
+
+We will analyze the dataset to predict which areas are more prone to wildfires and show their spatial distribution and other insights.  <br/>
+Based on the past data notify the concerned authority about the likelihood of wildfire in a particular month.  <br/>
+We will develop a web application(MERN stack) which will notify the user of the likelihood of a wildfire in that area, it will also have a feature through which user can notify the authority of a wildfire. <br/>
+
+
+Persona:
+
+California Locals - They will get notified in case of a wildfire in their neighbourhood, they will also have a feature to notify the authority of a possible wildfire event. <br/>
+Admininstration/Authority - Administration will notify the locals and also receive alerts from them, they will also receive alerts from the ML model so that they can be better prepared. <br/>
 
 Dataset links:
-
-
 https://www.kaggle.com/ananthu017/california-wildfire-incidents-20132020 
 
 
