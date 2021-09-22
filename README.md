@@ -1,5 +1,22 @@
 # Team-Project-30
 
+Topic 1
+
+1. Introduction
+Parking, especially in the Bay area is a problem that anyone who has a car almost inevitably faces. Finding a parking lot is a hassle but finding an available slot in a parking lot is just as challenging. This project aims to provide users with more information on available slots so as to prevent them spending their time on the menial job of hunting for places to park their car. 
+
+2. Abstract
+We intend to analyze available datasets to predict how many slots are generally available for a parking lot during a certain time of the day. BY analyzing public datasets from Lyft's Baywheel cycles, we hope to provide a better context for when slots will be available and help users in easing the headache of finding spots for parking. In order to collect real-world data, we plan to create an interface for parking lot maintainers and users to modify information related to the number of parking lots available, and when slots are typically filled and are empty. 
+
+2. Approach
+We currently intend to analyze the public dataset offered by Bay Wheels. Once the data is crunched, we expect to predict for a certain parking lot, how many slots are generally available. An interface offered to users will consist of a web application. 
+
+
+4. Persona
+We are expecting users who want to avail parking lots and parking lot maintainers who want to rent spaces in their parking lots to use the application. 
+
+5. Dataset Links
+https://www.kaggle.com/dcshah/bay-wheels-2019-data/activity
 
 Topic 2: California Wild Fire Detection and Prevetion
 
