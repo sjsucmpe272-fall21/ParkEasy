@@ -21,22 +21,22 @@ https://www.kaggle.com/dcshah/bay-wheels-2019-data/activity
 
 Topic 2: California Wild Fire Detection and Prevention
 
-1.Introduction </br>
+1. Introduction </br>
 Almost every year California experiences wildfire outbreaks which brings about serious concerns for the people living in California. From the available statistics, there are about 7.5k wildfire outbreaks happening in California every year. The wildfire also comes with huge damage to the property and the environment. The California locals have to displace themselves from their homes either due to property damage, bad air quality, extreme heat, or other indirect consequences. As per the available statistics in 2018 alone, 22k structures were destroyed in California because of the wildfires. In the same year, the administration spent nearly 635 million dollars to suppress the wildfires. We need to look at the ways how we could use technology to reduce the impact of wildfires.
 
-2.Abstract <br/>
+2. Abstract <br/>
 We intend to analyze the datasets available to identify high-risk-prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occur, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of a wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
 
-3.Approach <br/>
+3. Approach <br/>
 We will analyze the dataset to predict which areas are more prone to wildfires and show their spatial distribution and other insights.  <br/>
 Based on the past data notify the concerned authority about the likelihood of wildfire in a particular month.  <br/>
 We will develop a web application(MERN stack) which will notify the user of the likelihood of a wildfire in that area, it will also have a feature through which user can notify the authority of a wildfire. <br/>
 
-4.Persona <br/>
+4. Persona <br/>
 California Locals - They will get notified in case of a wildfire in their neighbourhood, they will also have a feature to notify the authority of a possible wildfire event. <br/>
 Admininstration/Authority - Administration will notify the locals and also receive alerts from them, they will also receive alerts from the ML model so that they can be better prepared. <br/>
 
-5.Dataset links <br/>
+5. Dataset links <br/>
 https://www.kaggle.com/ananthu017/california-wildfire-incidents-20132020 
 
 
