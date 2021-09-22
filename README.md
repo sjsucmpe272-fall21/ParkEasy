@@ -11,7 +11,7 @@ to reduce the impact of wildifires.
 Abstract: 
 
 
-We intend to analyze the datasets available to identify high risk prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occurs, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of wildfire outbreak as predicted by our ML model or someone reports it in the portal.
+We intend to analyze the datasets available to identify high risk prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occurs, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
 
 
 Dataset links:
