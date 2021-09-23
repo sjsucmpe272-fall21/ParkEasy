@@ -1,7 +1,6 @@
 # Team-Project-30
 <hr style="border:2px solid gray"> </hr>
-Topic 1
-
+Topic 1 : Predicting Parking Spot Availability<br/>
 1. Introduction <br/>
 Parking, especially in the Bay area is a problem that anyone who has a car almost inevitably faces. Finding a parking lot is a hassle but finding an available slot in a parking lot is just as challenging. This project aims to provide users with more information on available slots so as to prevent them spending their time on the menial job of hunting for places to park their car. 
 
