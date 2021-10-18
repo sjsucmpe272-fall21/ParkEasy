@@ -18,25 +18,25 @@ We are expecting users who want to avail parking lots and parking lot maintainer
 https://www.kaggle.com/dcshah/bay-wheels-2019-data/activity
 <hr style="border:2px solid gray"> </hr>
 
-Topic 2: California Wild Fire Detection and Prevention
+Topic 2: Predicting Instagram Influencers’ Popularity
 
 1. Introduction </br>
-Almost every year California experiences wildfire outbreaks which brings about serious concerns for the people living in California. From the available statistics, there are about 7.5k wildfire outbreaks happening in California every year. The wildfire also comes with huge damage to the property and the environment. The California locals have to displace themselves from their homes either due to property damage, bad air quality, extreme heat, or other indirect consequences. As per the available statistics in 2018 alone, 22k structures were destroyed in California because of the wildfires. In the same year, the administration spent nearly 635 million dollars to suppress the wildfires. We need to look at the ways how we could use technology to reduce the impact of wildfires.
+Social media marketing can play a very important role in promoting a product or a service. A marketer may want to decide between a set of available influncers for their marketing campaigns. They can benefit more by collaboarating with an influencer with more reach and popularity. <br/>
+An Instagram influencer is someone who’s built a reputation around a certain niche on Instagram. They are essentially a brand ambassador for your business.<br/>
+According to HypeAuditor’s State of Influencer Marketing 2021 report, the Instagram influencer market is expected to grow 15% in 2021, reaching a market cap of $5.8 billion by the end of the year.<br/>
 
 2. Abstract <br/>
-We intend to analyze the datasets available to identify high-risk-prone areas for wildfires in California and answer some of the questions like what time of the year wildfires occur, how frequent and devastating they are. We would like to offer a portal, for California locals and the administration, through which they can report wildfires and ask for help. The system we build will also be capable of notifying the California locals whenever there is a chance of a wildfire outbreak as predicted by our ML model or when someone reports it on the portal.
+We intend to analyze the past data of top Instagram influencers in India and predict whether their popularity will grow or decline in the future.<br/>
 
 3. Approach <br/>
-We will analyze the dataset to predict which areas are more prone to wildfires and show their spatial distribution and other insights.  <br/>
-Based on the past data notify the concerned authority about the likelihood of wildfire in a particular month.  <br/>
-We will develop a web application(MERN stack) which will notify the user of the likelihood of a wildfire in that area, it will also have a feature through which user can notify the authority of a wildfire. <br/>
+We will retrieve the Instagram influencers data from Starngage website.<br/>
+We will preprocess that data and use machine learning alogirthms to predict their popularity. <br/>
 
 4. Persona <br/>
-California Locals - They will get notified in case of a wildfire in their neighbourhood, they will also have a feature to notify the authority of a possible wildfire event. <br/>
-Admininstration/Authority - Administration will notify the locals and also receive alerts from them, they will also receive alerts from the ML model so that they can be better prepared. <br/>
+This model can be used by a marketer to decide which Instagram influencer will be more popular in future based on the predicted popularity, they can then collaborate with those influencers to increase their outreach and get a better return on their social media marketing investment. <br/>
 
 5. Dataset links <br/>
-https://www.kaggle.com/ananthu017/california-wildfire-incidents-20132020 
+https://starngage.com/app/id/influencer/ranking/india  <br/>
 
 
 <hr style="border:2px solid gray"> </hr>
