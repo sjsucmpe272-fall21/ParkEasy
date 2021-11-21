@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "ParkEasy Backend API's",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon src",
+    "start:static": "node src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjsucmpe272-fall21/ParkEasy.git"
+  },
+  "author": "team30",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjsucmpe272-fall21/ParkEasy/issues"
+  },
+  "homepage": "https://github.com/sjsucmpe272-fall21/ParkEasy#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "mongoose": "^6.0.12"
+  }
+}
