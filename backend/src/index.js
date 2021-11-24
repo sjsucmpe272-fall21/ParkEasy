@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const loginRoute = require('./routes/Login');
+const parkingSpotRoute = require('./routes/parkingSpot');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 app.use(cors(
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/park-easy/api", loginRoute);
+app.use("/park-easy/api/parkingSpot", parkingSpotRoute);
+
 
 app.get("/", function(req,resp){
     resp.send("ParkEasy Endpoints");
@@ -38,8 +41,8 @@ mongoose.connect(mongoDB, options, (err, res) => {
 });
 
 
-app.listen(3001, function () {
-    console.log("Server listening on port 3001");
+app.listen(8070, function () {
+    console.log("Server listening on port 8070");
 });
 
 module.exports = app;
