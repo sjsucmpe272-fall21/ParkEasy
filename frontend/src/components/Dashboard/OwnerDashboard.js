@@ -15,7 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { backendUrl } from '../../config';
+import parking_spot_default from '../../assets/images/parking_spot_default.jpeg';
+require('dotenv').config();
 const theme = createTheme();
 
 export default function OwnerDashBoard() {
@@ -24,21 +26,27 @@ export default function OwnerDashBoard() {
 
   useEffect(async () => {
     const ownerID = sessionStorage.getItem('userId');
-    const url = `http://localhost:3001/park-easy/api/parkingSpot/getAll`;
+    const url = `${backendUrl}/park-easy/api/parkingSpot/getAll`;
+    console.log(url);
     const response = await axios.get(url);
     setCards(response.data);
     console.log(cards);
   }, []);
 
   const onAddParking = () => {
+    sessionStorage.setItem('action','create');
     navigate('/owner/add-parkinglot');
   };
 
-  const onViewParking = (dish) => {
+  const onViewParking = (parking) => {
+    sessionStorage.setItem('action','view');
+    sessionStorage.setItem('selectedParkingId',parking._id);
     navigate('/owner/add-parkinglot');
   };
 
-  const onEditParking = (dish) => {
+  const onEditParking = (parking) => {
+    sessionStorage.setItem('action','edit');
+    sessionStorage.setItem('selectedParkingId',parking._id);
     navigate('/owner/add-parkinglot');
   };
 
@@ -95,9 +103,9 @@ export default function OwnerDashBoard() {
                       component="img"
                       sx={{
                         // 16:9
-                        pt: '56.25%',
+                        pt: '0.25%',
                       }}
-                      image={card.ImageUrl}
+                      image={parking_spot_default}
                       alt="random"
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
@@ -108,17 +116,17 @@ export default function OwnerDashBoard() {
                         {card.description}
                       </Typography>
                       <Typography>
-                        Available from :
+                        from:
                         {' '}
                         {card.availableFrom}
                       </Typography>
                       <Typography>
-                        Available to :
+                        to:
                         {' '}
                         {card.availableTo}
                       </Typography>
                       <Typography>
-                        Rate : $
+                        rate: $
                         {card.rate}/hr
                       </Typography>
                     </CardContent>

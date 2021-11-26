@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import { Hidden } from '@mui/material';
+import { googleAccessKey } from '../../config';
 
 
 const containerStyle = {
@@ -18,7 +19,7 @@ const webcontainerStyle = {
 };
 
 
-Geocode.setApiKey("AIzaSyAzJkZgYPqI7f4SiGeklrbgi9yPxel4rsY");
+Geocode.setApiKey(googleAccessKey);
 Geocode.enableDebug();
 
 
@@ -90,17 +91,27 @@ export default function LocationSearchModal(props) {
 
 
     useEffect(async () => {
-        if(props.location){
+        if (props.latitude && props.longitude ) {
             setLocation({
-                lat: props.location.latitude,
-                lng: props.location.longitude,
+                lat: props.latitude,
+                lng: props.longitude,
             });
 
             setMarker({
-                lat: props.location.latitude,
-                lng: props.location.longitude,
+                lat: props.latitude,
+                lng: props.longitude,
             });
-        }else if (navigator.geolocation) {
+
+            Geocode.fromLatLng(props.latitude, props.longitude).then(
+                response => {
+                    const address = response.results[0].formatted_address;
+                    setAddress(address);
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+        } else if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 setLocation({
                     lat: position.coords.latitude,
@@ -155,10 +166,11 @@ export default function LocationSearchModal(props) {
                     zipcode = getZipcode(addressArray);
                 setAddress(address);
                 console.log(city, state, area);
-                props.onMarkerChanged({ addressLine1: addressLine1, city: area, state: state, zipcode: zipcode, country:country, location: {
+                props.onMarkerChanged({
+                    addressLine1: addressLine1, city: area, state: state, zipcode: zipcode, country: country,
                     latitude: newLat,
                     longitude: newLng,
-                } })
+                })
                 setLocation({
                     lat: newLat,
                     lng: newLng,
@@ -192,10 +204,11 @@ export default function LocationSearchModal(props) {
         setAddress(address);
         console.log(city, state, area);
         console.log("address", address);
-        props.onPlaceSelected({ addressLine1: addressLine1, city: area, state: state, zipcode: zipcode, country:country, location:{
+        props.onPlaceSelected({
+            addressLine1: addressLine1, city: area, state: state, zipcode: zipcode, country: country,
             latitude: latValue,
             longitude: lngValue,
-        } })
+        })
         setLocation({
             lat: latValue,
             lng: lngValue,
@@ -247,7 +260,7 @@ export default function LocationSearchModal(props) {
                     </GoogleMap>
                     <Autocomplete
                         style={{ width: '325px' }}
-                        inputAutocompleteValue={address}
+                        defaultValue={address}
                         containerStyle={containerStyle}
                         onPlaceSelected={(place) => onPlaceSelected(place)}
                         options={{

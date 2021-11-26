@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -15,6 +16,12 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import LocationSearchModal from './Location';
 import axios from 'axios';
+import { backendUrl } from '../../config';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import DateRangePicker from '@mui/lab/DateRangePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const theme = createTheme();
 
@@ -24,7 +31,7 @@ export default function ParkingLot() {
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
     const [phone, setPhone] = useState('');
-    const [rate, setPrice] = useState('');
+    const [rate, setRate] = useState('');
     const [email, setEmail] = useState('');
     const [disabled, setDisbled] = useState(true);
     const [nameError, setNameError] = useState(false);
@@ -37,46 +44,61 @@ export default function ParkingLot() {
     const [toHrsError, setToHrsError] = useState(false);
     const [fromHrsHelper, setFrmHrsHelper] = useState('');
     const [toHrsHelper, setToHrsHelper] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [phoneNumberHelper, setPhoneNumberHelper] = useState('');
     const [addr1, setAddr1] = useState('');
     const [addr2, setAddr2] = useState('');
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [state, setState] = useState('');
     const [pincode, setPincode] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [availableDateRange, setAvailableDateRange] = useState([null, null]);
+    const [locationError, setLocationError] = useState(false);
     const navigate = useNavigate();
 
+
     const isValid = (payload) => {
-        // const nameRegex = new RegExp('^[a-zA-Z ]{1,256}$');
-        // if (!nameRegex.test(payload.DishName)) {
-        //   setNameError(true);
-        //   setNameHelper('Name should contain only characters');
-        //   return false;
-        // }
-        // const priceRegex = new RegExp('^[0-9]*[.]?[0-9]+$');
-        // if (!priceRegex.test(payload.Price)) {
-        //   setPriceError(true);
-        //   setPriceHelper('Enter a valid price');
-        //   return false;
-        // }
-        // return true;
+        const nameRegex = new RegExp('^[a-zA-Z0-9 ]{1,256}$');
+        if (!nameRegex.test(payload.name)) {
+            setNameError(true);
+            setNameHelper('Name should contain only characters');
+            return false;
+        }
+        const priceRegex = new RegExp('^[0-9]*[.]?[0-9]+$');
+        if (!priceRegex.test(payload.rate)) {
+            setPriceError(true);
+            setPriceHelper('Enter a valid price');
+            return false;
+        }
+        const phoneRegex = new RegExp('^[0-9]{10}$');
+        if (!phoneRegex.test(payload.contactNumber)) {
+            setPhoneNumberError(true);
+            setPhoneNumberHelper('Phone number should only contain 10 digits');
+            return false;
+        }
+        if (!latitude || !longitude) {
+            setLocationError(true);
+            return false;
+        }
+        return true;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-
-        const ownerID = sessionStorage.getItem('userId');
+        //const ownerID = sessionStorage.getItem('userId');
+        const ownerID = '619f0253527e6c08a6b56139';
         const payload = {
             ownerID,
             name: data.get('name'),
             description: data.get('desc'),
             email: data.get('email'),
             contactNumber: data.get('phone'),
-            availableFrom: data.get('fromHrs'),
-            availableTo: data.get('toHrs'),
+            availableFrom: availableDateRange[0],
+            availableTo: availableDateRange[1],
             rate: data.get('rate'),
             address: {
                 addressLine1: addr1,
@@ -89,17 +111,48 @@ export default function ParkingLot() {
             latitude: latitude,
             longitude: longitude
         };
-        // if (!isValid(payload)) {
-        //     return;
-        // }
-        const response = await axios.post("http://localhost:3001/park-easy/api/parkingSpot/add", payload);
+        if (!isValid(payload)) {
+            return;
+        }
+        const action = sessionStorage.getItem('action');
+        const parkingSpotId = sessionStorage.getItem('selectedParkingId');
+        let response;
+        if(action === 'edit'){
+            response = await axios.put(`${backendUrl}/park-easy/api/parkingSpot/${parkingSpotId}`, payload);
+        }else{
+            response = await axios.post(`${backendUrl}/park-easy/api/parkingSpot/add`, payload);
+        }
         if (response.data) {
+            sessionStorage.removeItem('selectedParkingId');
             navigate("/owner/home");
         }
     };
 
+    const setParkingData = (parking) => {
+        setName(parking.name);
+        setDesc(parking.description);
+        setCountry(parking.address.country);
+        setState(parking.address.state);
+        setCity(parking.address.city);
+        setEmail(parking.email);
+        setPhone(parking.contactNumber);
+        setAddr1(parking.address.addressLine1);
+        setAddr2(parking.address.addressLine2);
+        setPincode(parking.address.zipCode);
+        setLatitude(parking.latitude);
+        setLongitude(parking.longitude);
+        setAvailableDateRange([parking.availableFrom, parking.availableTo]);
+        setRate(parking.rate);
+    }
+
     useEffect(async () => {
-        setDisbled(false);
+        const action = sessionStorage.getItem('action');
+        if (action === 'edit' || action === 'view') {
+            const parkingSpotId = sessionStorage.getItem('selectedParkingId');
+            const response = await axios.get(`${backendUrl}/park-easy/api/parkingSpot/${parkingSpotId}`);
+            setParkingData(response.data);
+        }
+        action === 'view' ? setDisbled(true) : setDisbled(false);
     }, []);
 
     const onPhotoChange = (event) => {
@@ -138,6 +191,13 @@ export default function ParkingLot() {
         setLatitude(address.latitude);
         setLongitude(address.longitude);
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setLocationError(false);
+    };
 
     return (
         <>
@@ -225,6 +285,8 @@ export default function ParkingLot() {
                                         id="phone"
                                         label="Contact Number"
                                         name="phone"
+                                        error={phoneNumberError}
+                                        helperText={phoneNumberHelper}
                                         disabled={disabled}
                                         autoComplete="phone"
                                         autoFocus
@@ -232,14 +294,34 @@ export default function ParkingLot() {
                                     </TextField>
                                 </Grid>
 
+                                <Grid item xs={12}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DateRangePicker
+                                            startText="Available from date"
+                                            endText="Available to date"
+                                            value={availableDateRange}
+                                            onChange={(newValue) => {
+                                                setAvailableDateRange(newValue);
+                                            }}
+                                            renderInput={(startProps, endProps) => (
+                                                <React.Fragment>
+                                                    <TextField fullWidth {...startProps} />
+                                                    <Box sx={{ mx: 1 }}> to </Box>
+                                                    <TextField fullWidth {...endProps} />
+                                                </React.Fragment>
+                                            )}
+                                        />
+                                    </LocalizationProvider>
+                                </Grid>
+
                                 <Grid item xs={12} sm={4}>
                                     <TextField
                                         margin="none"
                                         required
                                         fullWidth
-                                        type="datetime-local"
+                                        type="time"
                                         id="from"
-                                        label="Available From"
+                                        label="From time"
                                         name="fromHrs"
                                         autoComplete="type"
                                         error={fromHrsError}
@@ -260,9 +342,9 @@ export default function ParkingLot() {
                                         margin="none"
                                         required
                                         fullWidth
-                                        type="datetime-local"
+                                        type="time"
                                         id="to"
-                                        label="Available to"
+                                        label="To time"
                                         name="toHrs"
                                         value={toHrs}
                                         autoComplete="to"
@@ -288,7 +370,7 @@ export default function ParkingLot() {
                                         value={rate}
                                         error={rateError}
                                         helperText={rateHelper}
-                                        onChange={(e) => { setPrice(e.target.value); setPriceError(false); setPriceHelper(''); }}
+                                        onChange={(e) => { setRate(e.target.value); setPriceError(false); setPriceHelper(''); }}
                                         type="number"
                                         step="0.01"
                                         id="rate"
@@ -301,7 +383,7 @@ export default function ParkingLot() {
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <LocationSearchModal onPlaceSelected={onPlaceSelected} onMarkerChanged={onMarkerChanged} />
+                                    <LocationSearchModal latitude={latitude} longitude={longitude} onPlaceSelected={onPlaceSelected} onMarkerChanged={onMarkerChanged} />
                                 </Grid>
 
                                 <Grid item xs={12}>
@@ -380,6 +462,13 @@ export default function ParkingLot() {
                                         variant="standard"
                                     />
                                 </Grid>
+
+                                <Snackbar  open={locationError} autoHideDuration={6000} onClose={handleClose}>
+                                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                                        You must position the parking spot location on google maps
+                                    </Alert>
+                                </Snackbar>
+
                                 <Grid item xs={12}>
                                     <Button
                                         type="submit"
