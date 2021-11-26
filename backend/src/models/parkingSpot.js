@@ -2,17 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const parkingSpotSchema = new Schema({
-    parkingLotID:{
-        type: mongoose.Schema.Types.ObjectId,
-        index: true,
-        auto: true
-    },
-    ownerID : {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
-    },
+
     name : {
         type: String
+    },
+    userId :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     description : {
         type: String,
