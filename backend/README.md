@@ -5,6 +5,7 @@
 http://127.0.0.1:8070/park-easy/api/parkingSpot/add     <br/>
 REQUEST->       <br/>
 {
+"userId" : "619ee94b1d7566681b629a37",  
 "description" : "asdshdsa", <br/>
 "address" : "Test address 1",<br/>
 "latitude" : 123.56,<br/>
@@ -77,5 +78,9 @@ RESPONSE->
 <br/><br/>
 
 5- get all parkingspots for a given user        <br/>
-Work In Progress
+http://127.0.0.1:8070/park-easy/api/parkingSpot/spots       
+POST->      
+{   
+"userId" : "619ee94b1d7566681b629a37"       
+}   
 

@@ -3,23 +3,15 @@ const Schema = mongoose.Schema;
 
 const parkingSpotSchema = new Schema({
 
-    /*
-    ownerID : {
+    userId :{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    parkingLotID:{
-        type: mongoose.Schema.Types.ObjectId,
-        index: true,
-        required: true,
-        auto: true
-    },
-    */
     description : {
         type: String,
         trim: true
     },
-    address :{
+    address : {
         type: String,
         trim: true
     },
