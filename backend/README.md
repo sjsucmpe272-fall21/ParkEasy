@@ -4,38 +4,61 @@
 1- post a parkingspot   <br/>
 http://127.0.0.1:8070/park-easy/api/parkingSpot/add     <br/>
 REQUEST->       <br/>
-{
-"userId" : "619ee94b1d7566681b629a37",  
-"description" : "asdshdsa", <br/>
-"address" : "Test address 1",<br/>
-"latitude" : 123.56,<br/>
-"longitude" : -234.678,<br/>
-"rate" : 4,<br/>
-"email" : "test1@xyz.com",<br/>
-"contactNumber" : 12345,<br/>
-"availableFrom" : "2021-11-25T14:45:44.225z",<br/>
-"availableTo" : "2021-11-26T18:45:44.225z"<br/>
+{   
+"name" : "Test User2",  
+"userId" : "619ee94b1d7566681b629a37" , 
+"description" : "description test", 
+"address" : {   
+"addressLine1"  :   "1325 Brook Pl",    
+"addressLine2"  :   "line 2 test",  
+"city"  :   "Mountain View",    
+"state" :   "California",   
+"country"   :   "United States",    
+"zipCode"   :   "94040" 
+},  
+"latitude" : 123.56,    
+"longitude" : -234.678, 
+"rate" : 4, 
+"email" : "test1@xyz.com",  
+"contactNumber" : 12345,    
+"availableFrom" : "2021-11-25T07:06",   
+"availableTo" : "2021-11-25T19:06", 
+"startTime" : "01:00:00",   
+"endTime"   : "23:22:56",   
+"spotImageUrl"  : "test.image.com"  
 }<br/>
 
 <br/>
 
 2- get a parkingSpot based on parkingSpot id    <br/>
-http://127.0.0.1:8070/park-easy/api/parkingSpot/619df8a82464bb0c4fd38b18    <br/>
+http://127.0.0.1:8070/park-easy/api/parkingSpot/61a1e1351b78dd59556db7f5    <br/>
 
 response-   <br/>
-{
-"_id": "619df8a82464bb0c4fd38b18",  <br/>
-"description": "asdshdsa",<br/>
-"address": "Test address 1",<br/>
-"latitude": 123.56,<br/>
-"longitude": -234.678,<br/>
-"rate": 4,<br/>
-"email": "test1@xyz.com",<br/>
-"contactNumber": 12345,<br/>
-"availableFrom": "2021-11-25T14:45:44.225Z",<br/>
-"availableTo": "2021-11-26T18:45:44.225Z",<br/>
-"createdDate": "2021-11-24T08:32:40.268Z",<br/>
-"__v": 0<br/>
+{   
+    "address": {    
+        "addressLine1": "1325 Brook Pl",    
+        "addressLine2": "line 2 test",  
+        "city": "Mountain View",    
+        "state": "California",  
+        "zipCode": "94040", 
+        "country": "United States"  
+    },  
+    "_id": "61a1e1351b78dd59556db7f5",  
+    "name": "Test User2",   
+    "userId": "619ee94b1d7566681b629a37",   
+    "description": "description test",  
+    "latitude": 123.56, 
+    "longitude": -234.678,  
+    "rate": 4,  
+    "email": "test1@xyz.com",   
+    "contactNumber": 12345, 
+    "availableFrom": "2021-11-25T07:06",    
+    "availableTo": "2021-11-25T19:06",  
+    "startTime": "01:00:00",    
+    "endTime": "23:22:56",  
+    "spotImageUrl": "test.image.com",   
+    "createdDate": "2021-11-27T07:41:41.721Z",  
+    "__v": 0    
 }
 <br/>
 <br/>
