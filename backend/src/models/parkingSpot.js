@@ -62,6 +62,15 @@ const parkingSpotSchema = new Schema({
     availableTo : {
         type : String
     },
+    startTime :{
+        type : String
+    },
+    endTime :{
+        type : String
+    },
+    spotImageUrl: {
+        type: String,
+    },
     createdDate : {
         type: Date,
         default : Date.now
