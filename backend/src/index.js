@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const loginRoute = require('./routes/Login');
 const parkingSpotRoute = require('./routes/parkingSpot');
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -16,7 +15,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/park-easy/api", loginRoute);
 app.use("/park-easy/api/parkingSpot", parkingSpotRoute);
 app.use("/park-easy/api/user", userRouter);
 

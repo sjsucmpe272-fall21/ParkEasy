@@ -5,10 +5,11 @@ exports.addParkingSpot = (req,res) => {
     const payload = req.body;
     const newParkingSpot = new ParkingSpot(payload);
 
-    newParkingSpot.save()
-    return res.json({
-        message: "Parking Spot added successfully with id: " + newParkingSpot._id 
-    })
+    const savedSpot = newParkingSpot.save()
+    return res.status(200).send(savedSpot);
+    // return res.json({
+    //     message: "Parking Spot added successfully with id: " + newParkingSpot._id 
+    // })
 }
 
 // get all the available parkingspots
