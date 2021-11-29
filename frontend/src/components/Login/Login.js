@@ -1,52 +1,48 @@
-import React, {Component} from 'react';
-import '../../App.css';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import  {Component} from 'react';
 import axios from 'axios';
-import cookie from 'react-cookies';
-import {Navigate} from 'react-router';
 
-//Define a Login Component
-class Login extends Component{
-    //call the constructor method
-    constructor(props){
-        //Call the constrictor of Super class i.e The Component
-        super(props);
-        //maintain the state required for this component
-        this.state = {
-            username : "",
-            password : "",
-            authFlag : false,
-            errorMessage: ""
-        }
-        //Bind the handlers to this class
-        this.usernameChangeHandler = this.usernameChangeHandler.bind(this);
-        this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-        this.submitLogin = this.submitLogin.bind(this);
+const theme = createTheme();
+
+export default class SignInSide extends Component {
+
+    state = {
+        authFlag : false
     }
-    //username change handler to update state variable with the text entered by the user
-    usernameChangeHandler = (e) => {
-        this.setState({
-            username : e.target.value
-        })
+
+    onChangeField = (event) => {
+        this.setState({resStatus: event.target.value});
     }
-    //password change handler to update state variable with the text entered by the user
-    passwordChangeHandler = (e) => {
-        this.setState({
-            password : e.target.value
-        })
-    }
-    //submit Login handler to send a request to the node backend
-    submitLogin = (e) => {
-        var headers = new Headers();
-        //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            username : this.state.username,
-            password : this.state.password
-        }
-        //set the with credentials to true
+
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        // eslint-disable-next-line no-console
+        console.log({
+            email: data.get('username'),
+            password: data.get('password'),
+        });
+
+        const payload = {
+            email: data.get('username'),
+            password: data.get('password'),
+        };
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/login',data)
+        await axios.post('http://localhost:8070/park-easy/api/login', payload)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
@@ -69,39 +65,97 @@ class Login extends Component{
                 }
 
             });
-    }
+    };
 
-    render(){
-        //redirect based on successful login
-        let redirectVar = null;
-        // if(cookie.load('cookie')){
-        //     redirectVar = <Navigate to= "/home"/>
-        // }
-        return(
-            <div>
-                {redirectVar}
-            <div class="container">
+  render(){
+    return (
+        <ThemeProvider theme={theme}>
+          <Grid container component="main" sx={{ height: '100vh' }}>
+            <CssBaseline />
+            <Grid
+              item
+              xs={false}
+              sm={4}
+              md={7}
+              sx={{
+                backgroundImage: 'url(https://uber-eats-store-0144.s3.us-east-2.amazonaws.com/images/others/parking_spot.jpeg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundColor: (t) =>
+                  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+              <Box
+                sx={{
+                  my: 8,
+                  mx: 4,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
 
-                <div class="login-form">
-                    <div class="main-div">
-                        <div class="panel">
-                            <h2>Admin Login</h2>
-                            <p>Please enter your username and password</p>
-                        </div>
-                            <div className="error-msg">{this.state.errorMessage}</div>
-                            <div class="form-group">
-                                <input onChange = {this.usernameChangeHandler} type="text" class="form-control" name="username" placeholder="Username" required/>
-                            </div>
-                            <div class="form-group">
-                                <input onChange = {this.passwordChangeHandler} type="password" class="form-control" name="password" placeholder="Password" required/>
-                            </div>
-                            <button onClick = {this.submitLogin} class="btn btn-primary">Login</button>
-                    </div>
-                </div>
-            </div>
-            </div>
-        )
-    }
+                <Typography component="h1" variant="h3">
+                  ParkEasy
+                </Typography>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 1 }}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="username"
+                    label="Email Address"
+                    name="username"
+                    autoComplete="username"
+                    onChange={this.onChangeField}
+                    autoFocus
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    onChange={this.onChangeField}
+                    autoComplete="current-password"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    onClick
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+
+                    </Grid>
+                    <Grid item>
+                      <Link href="#" variant="body2">
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </ThemeProvider>
+      );
+  }
+
 }
-//export Login Component
-export default Login;
