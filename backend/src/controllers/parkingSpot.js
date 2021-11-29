@@ -1,14 +1,23 @@
 const ParkingSpot = require('../models/parkingSpot');
+const User = require('../models/user');
+var ParkingSpotManager = require("../manager/parkingSpot")
 
-// add a new parkingspot
 exports.addParkingSpot = (req,res) => {
+    console.log(req.body)
     const payload = req.body;
     const newParkingSpot = new ParkingSpot(payload);
 
-    newParkingSpot.save()
-    return res.json({
-        message: "Parking Spot added successfully with id: " + newParkingSpot._id 
+    console.log(newParkingSpot)
+    newParkingSpot.save((err, newParkingSpot) => {
+        if(err){
+            return res.status(400).json({
+                err: "NOT able to save user in DB "+"Error is "+err});
+        }
+        return res.json({
+            message: "Parking Spot added successfully with id: " + newParkingSpot._id 
+        })
     })
+    
 }
 
 // get all the available parkingspots
@@ -50,7 +59,7 @@ exports.updateParkingSpot = (req,res) => {
         (err, parkingSpotId) => {
          if (err) {
          return res.status(400).json({
-              error: "You are not authorized to update this user"
+              error: "Updating the user is not successful!!"
          });
         }
         res.json(parkingSpotId);
@@ -61,7 +70,7 @@ exports.updateParkingSpot = (req,res) => {
 
 // delete a parkingspot based on parkingspot id in body
 exports.deleteParkingSpot = (req,res)=>{
-    ParkingSpot.findByIdAndDelete(req.body.parkingSpotId,(err,paper)=>{
+    ParkingSpot.findByIdAndDelete(req.body.parkingSpotId,(err,spot)=>{
         if (err){
             console.log(err);
             return res.status(400).json({
@@ -69,10 +78,22 @@ exports.deleteParkingSpot = (req,res)=>{
             });
         }
         else{
-            console.log("Deleted : ", paper);
+            console.log("Deleted : ", spot);
             return res.json();
         }
         
     })
+}
+
+
+
+// get all the parkingspots for a given user(owner)
+exports.getAllParkingSpotsOfOwner = async (req,res)=>{
+    console.log("Inside Controller")
+    console.log(req.body.userID)
+    let spots = await ParkingSpotManager.GetAllParkingSpotOfUser(req);
+    if(spots==undefined || spots.hasOwnProperty('error'))
+        return res.status(400).json(spots.error);
+    return res.json(spots);
 }
 

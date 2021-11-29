@@ -3,25 +3,41 @@ const Schema = mongoose.Schema;
 
 const parkingSpotSchema = new Schema({
 
-    /*
-    ownerID : {
+    name : {
+        type: String
+    },
+    userId :{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    parkingLotID:{
-        type: mongoose.Schema.Types.ObjectId,
-        index: true,
-        required: true,
-        auto: true
-    },
-    */
     description : {
         type: String,
         trim: true
     },
-    address :{
-        type: String,
-        trim: true
+    address: {
+        addressLine1: { 
+            type: String, 
+            required: true 
+        },
+        addressLine2: { 
+            type: String 
+        },
+        city: { 
+            type: String, 
+            required: true 
+        },
+        state: {
+             type: String, 
+             required: true 
+        },
+        zipCode: { 
+            type: String, 
+            required: true 
+        },
+        country: { 
+            type: String, 
+            required: true 
+        },
     },
     latitude : {
         type: Number
@@ -41,10 +57,19 @@ const parkingSpotSchema = new Schema({
         maxlength: 10
     },
     availableFrom :{
-        type : Date
+        type : String
     },
     availableTo : {
-        type : Date
+        type : String
+    },
+    startTime :{
+        type : String
+    },
+    endTime :{
+        type : String
+    },
+    spotImageUrl: {
+        type: String,
     },
     createdDate : {
         type: Date,

@@ -6,6 +6,9 @@ import Home from './User/Home';
 import SearchParking from "./User/SearchParking";
 import ViewLot from "./ViewLot";
 
+import LocationSearchModal from './Dashboard/Location';
+import ParkingLot from './Dashboard/ParkingLot';
+import OwnerDashBoard from './Dashboard/OwnerDashboard';
 //Create a Main Component
 class Main extends Component {
     render(){
@@ -16,6 +19,8 @@ class Main extends Component {
                     <Route path="/user/home" exact element={<Home/>}></Route>
                     <Route path = "/user/search" exact element = {<SearchParking />}></Route>
                     <Route path = "/lots/:lotID" exact element = {<ViewLot/>} ></Route>
+                    <Route path="/owner/home" exact element={<OwnerDashBoard/>}></Route>
+                    <Route path="/owner/add-parkinglot" exact element={<ParkingLot/>}></Route>
                 </Routes>
 
         )

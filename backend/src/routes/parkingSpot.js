@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {addParkingSpot, getAllParkingSpots, getParkingSpotById, getParkingSpot, updateParkingSpot, deleteParkingSpot} = require('../controllers/parkingSpot');
+const {addParkingSpot, getAllParkingSpots, getParkingSpotById, getParkingSpot, updateParkingSpot, deleteParkingSpot, getAllParkingSpotsOfOwner} = require('../controllers/parkingSpot');
 
 const parkingSpot = require('../models/parkingSpot');
 
@@ -18,7 +18,7 @@ router.put("/:parkingSpotId", updateParkingSpot)
 // delete a parkingspot based on parkingspot id in body
 router.delete("/delete", deleteParkingSpot)
 
-// get all the parkingspots based on owner id
-// Work In Progress
+// get all the parkingspots based on userId
+router.post("/spots", getAllParkingSpotsOfOwner);
 
 module.exports = router;

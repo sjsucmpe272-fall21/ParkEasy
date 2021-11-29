@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import "./../css/Maps.css";
+import { googleAccessKey } from "./../config";
 
 class SimpleMap extends Component {
 
-	API_KEY = "AIzaSyBbiFKGyRsG9MDhMbdUdc6DYZYJMAO-BM0";
+	API_KEY = googleAccessKey;
 
 	static defaultProps = {
 		center: {
