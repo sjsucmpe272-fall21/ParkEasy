@@ -11,7 +11,7 @@ class App extends Component {
     return (
       //Use Browser Router to route to different pages
       <BrowserRouter>
-               <Main/>
+        <Main/>
       </BrowserRouter>
     );
   }
