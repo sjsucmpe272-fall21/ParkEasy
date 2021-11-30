@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { backendUrl } from '../../config';
-import parking_spot_default from '../../assets/images/parking_spot_default.jpeg';
+// import parking_spot_default from '../../assets/images/parking_spot_default.jpeg';
 require('dotenv').config();
 const theme = createTheme();
 
@@ -105,7 +105,7 @@ export default function OwnerDashBoard() {
                         // 16:9
                         pt: '0.25%',
                       }}
-                      image={parking_spot_default}
+                      image={""}
                       alt="random"
                     />
                     <CardContent sx={{ flexGrow: 1 }}>

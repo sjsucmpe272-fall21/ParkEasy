@@ -4,6 +4,7 @@ const parkingSpotRoute = require('./routes/parkingSpot');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRouter = require("./routes/userRouter");
+const loginRouter = require("./routes/Login");
 
 app.use(cors(
     {exposedHeaders: 'token',
@@ -17,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/park-easy/api/parkingSpot", parkingSpotRoute);
 app.use("/park-easy/api/user", userRouter);
+app.use("/park-easy/api/", loginRouter);
+
 
 app.get("/", function(req,resp){
     resp.send("ParkEasy Endpoints");

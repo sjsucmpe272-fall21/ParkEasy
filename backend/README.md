@@ -7,15 +7,13 @@ REQUEST->       <br/>
 {   
 "name" : "Test User2",  
 "userId" : "619ee94b1d7566681b629a37" , 
-"description" : "description test", 
-"address" : {   
+"description" : "description test",  
 "addressLine1"  :   "1325 Brook Pl",    
 "addressLine2"  :   "line 2 test",  
 "city"  :   "Mountain View",    
 "state" :   "California",   
 "country"   :   "United States",    
-"zipCode"   :   "94040" 
-},  
+"zipCode"   :   "94040" ,  
 "latitude" : 123.56,    
 "longitude" : -234.678, 
 "rate" : 4, 
@@ -27,7 +25,7 @@ REQUEST->       <br/>
 "endTime"   : "23:22:56",   
 "spotImageUrl"  : "test.image.com"  
 }<br/>
-
+for image upload test by providing key for file as spotImage
 <br/>
 
 2- get a parkingSpot based on parkingSpot id    <br/>
