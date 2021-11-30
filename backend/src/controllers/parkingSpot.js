@@ -2,23 +2,97 @@ const ParkingSpot = require('../models/parkingSpot');
 const User = require('../models/user');
 var ParkingSpotManager = require("../manager/parkingSpot")
 
-exports.addParkingSpot = (req,res) => {
-    console.log(req.body)
-    const payload = req.body;
-    const newParkingSpot = new ParkingSpot(payload);
+// New Changes for image upload
+const aws = require("aws-sdk");
+const multerS3 = require("multer-s3");
+const multer = require("multer");
+const path = require("path");
+const url = require("url");
+require("dotenv").config();
 
-    console.log(newParkingSpot)
-    newParkingSpot.save((err, newParkingSpot) => {
-        if(err){
-            return res.status(400).json({
-                err: "NOT able to save user in DB "+"Error is "+err});
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  Bucket: process.env.AWS_BUCKET_NAME,
+  Region: process.env.AWS_BUCKET_REGION,
+});
+
+const spotImgUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    region: process.env.AWS_BUCKET_REGION,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      // console.log("file.originalname : "+file.originalname);
+      cb(
+        null,
+        "parkeasy/user/spot/images/" +
+          path.basename(file.originalname, path.extname(file.originalname)) +
+          "-" +
+          Date.now() +
+          path.extname(file.originalname)
+      );
+    },
+  }),
+  limits: { fileSize: 2000000 }, // In bytes: 2000000 bytes = 2 MB
+  // fileFilter: function( req, file, cb ){
+  // checkFileType( file, cb );
+  // }
+}).single("spotImage");
+
+exports.addParkingSpot = (req, res) => {
+  console.log("Inside register parkingSpot");
+  spotImgUpload(req, res, (error) => {
+    if (error) {
+      console.log("errors", error);
+      res.json({ error: error });
+    } else {
+        let imageLocation = "https://uber-eats-store-0144.s3.us-east-2.amazonaws.com/parkeasy/user/spot/images/defaultSpot-1638073107187.jpg"
+      //if file not found, there should be a default image URL/ or we can have that file in the project structure which can be used in that scenario
+      if (req.file === undefined) {
+        console.log("No File Selected for parkingSpot, use default Image!");
+      } else {
+        const imageName = req.file.key;
+        imageLocation = req.file.location;
         }
-        return res.json({
-            message: "Parking Spot added successfully with id: " + newParkingSpot._id 
-        })
-    })
-    
-}
+        console.log(imageLocation)
+        const data = req.body;
+        const newParkingSpot = new ParkingSpot({
+          name: data.name,
+          userId: data.userId,
+          description: data.description,
+          address: {
+            addressLine1 : data.addressLine1,
+            addressLine2 : data.addressLine2,
+            city : data.city,
+            state : data.state,
+            country : data.country,
+            zipCode : data.zipCode
+        },
+          latitude: data.latitude,
+          longitude: data.longitude,
+          rate: data.rate,
+          email: data.email,
+          contactNumber: data.contactNumber,
+          availableFrom: data.availableFrom,
+          availableTo: data.availableTo,
+          startTime : data.startTime,
+          endTime : data.endTime,
+          spotImageUrl: imageLocation,
+        });
+        newParkingSpot.save((err, result) => {
+          if (err) {
+            res
+              .status(500)
+              .send(JSON.stringify({ message: "Something went wrong!", err }));
+          } else {
+            res.send(JSON.stringify({ spot: result }));
+          }
+        });
+      }
+  });
+};
 
 // get all the available parkingspots
 exports.getAllParkingSpots = (req,res) => {
