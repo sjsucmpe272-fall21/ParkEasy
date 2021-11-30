@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Paper } from '@mui/material';
 import TopBar from "./TopBar";
 import Maps from "./Maps";
 import Carousel from 'react-material-ui-carousel';
@@ -22,9 +22,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { getHoursAndSeconds } from "./../utilities/Utility";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 export default function ViewLot() {
 
@@ -47,9 +49,20 @@ export default function ViewLot() {
         "2100",
         "2200"
     ]
+
+    const parkingSlotResponse = {};
+    const { description, address, latitude, longitude, rate,} = parkingSlotResponse; 
+
     const parkingSlot = {
-        "title": "Parking behind San Pedro Square",
+        "description": "Parking behind San Pedro Square",
         "address": "77 N Almaden Blvd, San Jose, CA 95113",
+        "latitude": 37.335310,
+        "longitude": -121.896890,
+        "rate": 4,
+        "email": "john.peterson@gmail.com",
+        "contactNumber": "669-420-6666",
+        "availableFrom": `Available from ${getHoursAndSeconds("2021-11-25T08:00:00.225+00:00")}`,
+        "availableTo": `To ${getHoursAndSeconds("2021-11-25T22:00:00.225+00:00")}`,
         "coordinates": {
             "lat": 37.335310,
             "lng": -121.896890
@@ -83,39 +96,60 @@ export default function ViewLot() {
                     <TopBar />
                 </Grid>
 
-                <Grid item xs = { 16 } >
-                    <div style = {{ height: "40vh", border: "1px solid red"}}>
+                {/* Padding, Carousel */}
+                <Grid item xs = {1}>
+                    <div></div>
+                </Grid>
+
+                <Grid item xs = { 14  } >
+                    <div style = {{ height: "40vh"}}>
                         <Carousel
                         autoPlay
                         interval="2000"
                         navButtonsAlwaysVisible="true"
                         className = "carousel"
                         stopAutoPlayOnHover = "true"
+                        style = {{ height: "100%", width: "100%"}}
                         >
                         {
                             slotImages.map((image, index) => 
-                                <CarouselSlide key = {index}>
-                                    <Card style = {{height: "30vh", border: "1px solid black"}}>
+                                // <CarouselSlide style = {{border: "5px solid gold"}} key = {index}>
+                                    // <Card>
+                                    //     <CardMedia
+                                    //         component="img"
+                                    //         image={image}
+                                    //     />
+                                    // </Card>
+                                // </CarouselSlide>
+
+                                <Paper style = {{height: "40vh"}}>
+                                    <Card>
                                         <CardMedia
+                                            component="img"
                                             image={image}
-                                            style = {{ height: "100%", width: "100%"}}
                                         />
                                     </Card>
-                                </CarouselSlide>
+                            </Paper>
                             )
                         }
                         </Carousel>
                     </div>
                 </Grid>
 
-                <Grid item xs = { 8 }>
+
+                {/* Padding, Slot information */}
+                <Grid item xs = {2}>
+                    <div></div>
+                </Grid>
+
+                <Grid item xs = { 6 }>
                     <List>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
                                     <TitleIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={parkingSlot.title} />
+                                <ListItemText primary={parkingSlot.description} />
                             </ListItemButton>
                         </ListItem>
 
@@ -136,10 +170,21 @@ export default function ViewLot() {
                                 <ListItemText primary={parkingSlot.contact.name} />
                             </ListItemButton>
                         </ListItem>
+
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <AccessTimeIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={parkingSlot.availableFrom} />
+                            </ListItemButton>
+                        </ListItem>
+
+
                     </List>
                 </Grid>
 
-                <Grid item xs = { 8 }>
+                <Grid item xs = { 6 }>
                     <List>
                         <ListItem disablePadding>
                             <ListItemButton>
@@ -167,9 +212,18 @@ export default function ViewLot() {
                                 <ListItemText primary={parkingSlot.contact.phone} />
                             </ListItemButton>
                         </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <WatchLaterIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={parkingSlot.availableTo} />
+                            </ListItemButton>
+                        </ListItem>
                     </List>
                 </Grid>
 
+                {/* Padding, Book Slot button */}
                 <Grid item xs = { 16 }>
                     <Button 
                     size="large" 
@@ -182,7 +236,12 @@ export default function ViewLot() {
                     </Button>
                 </Grid>
 
-                <Grid item xs = { 16 }>
+                {/* Padding, Maps */}
+                <Grid item xs = {2}>
+                    <div></div>
+                </Grid>
+
+                <Grid item xs = { 12 }>
                     <div style = {{ "height": "30vh"}}>
                         <Maps 
                         markers = { 
@@ -196,6 +255,7 @@ export default function ViewLot() {
                         />    
                     </div>
                 </Grid>
+            
             </Grid>
 
             <Dialog open={open} onClose={handleClose}>

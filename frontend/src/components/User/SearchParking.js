@@ -1,13 +1,19 @@
 import React from 'react'
 import { Component } from 'react'
 import { Grid } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
+// import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Maps from "./../Maps";
 import ParkingList from "./../User/ParkingList";
 import TopBar from "./../TopBar";
+import Autocomplete from 'react-google-autocomplete';
 
 class SearchParking extends Component  {
+
+    componentDidMount() {
+        console.log("On Mount", this.props);
+    };
+
     render(){
         const parkingLots = [{
             "id": "parkingSlot1",
@@ -45,14 +51,28 @@ class SearchParking extends Component  {
                 <Grid item xs = {16}>
                     <TopBar />
                 </Grid>
+
+
                 {/* SEARCH */}
                 <Grid item xs = { 16 }>
-                    <Autocomplete
+                    {/* <Autocomplete
                         id="free-solo-demo"
                         freeSolo
                         options={[]}
                         renderInput={(params) => <TextField {...params} label="Find Parking At" />}
-                    />
+                        value = "Finding Parking near"
+                        onChange = { (e) => e.target.value = e.target.value }
+                    /> */}
+                    <div style = {{border: "1px solid black"}}> 
+                        <Autocomplete
+                            inputAutocompleteValue={"San Jose State University"}
+                            onPlaceSelected={(place) => console.log(place)}
+                            options={{
+                                types: ["geocode", "establishment"],
+                            }}
+                            style = {{height: "100%", width: "99%"}}
+                        />
+                    </div>
                 </Grid>
 
                 {/* PARKING SPOTS AND THEIR POSITIONS ON MAP */}

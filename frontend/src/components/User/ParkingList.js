@@ -20,7 +20,6 @@ const ParkingList = (props) => {
     };
     
     const { parkingLots } = props;
-    console.log("Props are ", props);
 
     return (
         <List> 

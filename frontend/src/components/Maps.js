@@ -24,6 +24,10 @@ class SimpleMap extends Component {
 			// gestureHandling: "none"
 		};
 
+		const markerOptions = {
+			
+		}
+
 		return (
 			// Important! Always set the container height explicitly
 			// <div style={{ height: '100vh', width: '100%' }}>
@@ -42,6 +46,7 @@ class SimpleMap extends Component {
 									<Marker
 										lat={marker.lat}
 										lng={marker.lng}
+										options={markerOptions}
 									/>
 								)
 							})
