@@ -14,18 +14,20 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {Component} from 'react';
 import axios from 'axios';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const theme = createTheme();
 
 export default class SignInSide extends Component {
 
     state = {
-        authFlag : false
+        authFlag : false,
+        userType: "user"
     }
 
     onChangeField = (event) => {
-        this.setState({resStatus: event.target.value});
-    }
+      this.setState({[event.target.name]: event.target.value});
+  }
 
     handleSubmit = async (event) => {
         event.preventDefault();
@@ -49,6 +51,11 @@ export default class SignInSide extends Component {
                     this.setState({
                         authFlag : true
                     })
+                    if(this.state.userType === "owner"){
+                      this.props.history.push("/owner/home");
+                    } else {
+                      this.props.history.push("/user/home");
+                    }
                 }else {
                     this.setState({
                         authFlag : false
@@ -126,10 +133,21 @@ export default class SignInSide extends Component {
                     onChange={this.onChangeField}
                     autoComplete="current-password"
                   />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
+                  <br/><br/>
+                  <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Login as</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="userType"
+                    value={this.state.userType}
+                    label="Login as"
+                    onChange={this.onChangeField}
+                  >
+                    <MenuItem value={"user"}>User</MenuItem>
+                    <MenuItem value={"owner"}>Owner</MenuItem>
+                  </Select>
+                </FormControl>
                   <Button
                     type="submit"
                     fullWidth
