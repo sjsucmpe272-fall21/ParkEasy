@@ -15,9 +15,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import NavigationBar from '../User/NavigationBar';
 import { backendUrl } from '../../config';
 // import parking_spot_default from '../../assets/images/parking_spot_default.jpeg';
 require('dotenv').config();
+
+
 const theme = createTheme();
 
 export default function OwnerDashBoard() {
@@ -56,6 +59,7 @@ export default function OwnerDashBoard() {
 
   return (
     <>
+     <NavigationBar type='owner' />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <main>
@@ -105,7 +109,7 @@ export default function OwnerDashBoard() {
                         // 16:9
                         pt: '0.25%',
                       }}
-                      image={""}
+                      image={card.spotImageUrl}
                       alt="random"
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
@@ -124,6 +128,16 @@ export default function OwnerDashBoard() {
                         to:
                         {' '}
                         {card.availableTo}
+                      </Typography>
+                      <Typography>
+                        from time:
+                        {' '}
+                        {card.startTime}
+                      </Typography>
+                      <Typography>
+                        to time:
+                        {' '}
+                        {card.endTime}
                       </Typography>
                       <Typography>
                         rate: $
