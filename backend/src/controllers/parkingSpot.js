@@ -92,7 +92,7 @@ exports.addParkingSpot = (req, res) => {
               .status(500)
               .send({ message: "Something went wrong!", err });
           } else {
-            res.send({ spot: result });
+            res.status(200).send({ spot: result });
           }
         });
       }
