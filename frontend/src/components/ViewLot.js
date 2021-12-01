@@ -28,8 +28,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { backendUrl } from "./../config";
 import { calc_distance } from "./../utilities/Utility";
-
-// export default function ViewLot() {
+import NavigationBar from './User/NavigationBar';
 
 export default class ViewLot extends Component {
 
@@ -156,7 +155,9 @@ export default class ViewLot extends Component {
             <div>
                 <Grid container spacing = {2} columns = {16} rows>
                     <Grid item xs = {16}>
-                        <TopBar />
+                        <div style = {{"width": "100%", overflow: "hidden"}}>
+                            <NavigationBar type='user' />
+                        </div>
                     </Grid>
 
                     {/* Padding, Carousel */}

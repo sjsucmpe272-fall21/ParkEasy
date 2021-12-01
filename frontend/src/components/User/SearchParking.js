@@ -11,16 +11,19 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { backendUrl } from "./../../config";
 import { getLatLngFromGoogleAutoComplete } from '../../utilities/Utility';
+import NavigationBar from "./NavigationBar";
 
 class SearchParking extends Component  {
 
     constructor(props) {
         super();
         const queryParams = new URLSearchParams(window.location.search);
+        const currentLat = queryParams.get("lat") || 37.3352;
+        const currentLng = queryParams.get("lng") || -121.8811;
         this.state = {
             "parkingLots": [],
-            currentLat: queryParams.get("lat"),
-            currentLng: queryParams.get("lng")
+            currentLat,
+            currentLng
         };
     };
 
@@ -85,9 +88,10 @@ class SearchParking extends Component  {
             <Grid container spacing={2} columns={16} style = {{ height: "100%", overflow: 'auto'}}>
                 {/* NAVIGATION */}
                 <Grid item xs = {16}>
-                    <TopBar />
+                    <div style = {{"width": "100%", overflow: "hidden"}}>
+                        <NavigationBar type='user' />
+                    </div>
                 </Grid>
-
 
                 {/* SEARCH */}
                 <Grid item xs = { 16 }>

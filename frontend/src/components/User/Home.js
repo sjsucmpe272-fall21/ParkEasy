@@ -1,11 +1,10 @@
 import React from 'react'
 import { Component } from 'react'
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { Grid, CardMedia } from '@mui/material';
+import { Grid } from '@mui/material';
 import Autocomplete from 'react-google-autocomplete';
-import { Card } from '@material-ui/core';
 import { getLatLngFromGoogleAutoComplete } from '../../utilities/Utility';
+import NavigationBar from './NavigationBar';
 
 class Home extends Component  {
     
@@ -16,12 +15,16 @@ class Home extends Component  {
     
     render(){
         return (
-            <Grid style = {{ backgroundColor: "black"}} container spacing = {16} columns = {16}>
+            <Grid style = {{ height: "120vh", backgroundColor: "black"}} container spacing = {16} columns = {16}>
 
-
-                <Grid style = {{ height: "20vh", border: "0px solid brown"}} item xs = {16}></Grid>
+                <Grid item xs = {16}>
+                    <div style = {{"width": "100%", overflow: "hidden"}}>
+                        <NavigationBar type='user' />
+                    </div>
+                </Grid>
 
                 <Grid style = {{ border: "0px solid yellow"}} item xs = {3}></Grid>
+                
                 <Grid item xs = {10} style = {{  border: "0px solid blue"}}>
                     <Box
                         sx={{
@@ -39,9 +42,9 @@ class Home extends Component  {
                     </Box>
                 </Grid>
                 
-                <Grid 
+                {/* <Grid 
                 style = {{ 
-                    height: "70vh", 
+                    height: "60vh", 
                     "background-image": `url("https://pcdn.columbian.com/wp-content/uploads/2018/03/0307_met_Dog_Moutain_Parking-1226x0-c-default.jpg")`,
                     "background-repeat": "no-repeat",
                     "background-size": "cover",
@@ -49,7 +52,7 @@ class Home extends Component  {
                 }}
                 item xs = {16}
                 >
-                </Grid>
+                </Grid> */}
             </Grid>
         )
     }
