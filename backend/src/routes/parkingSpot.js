@@ -13,7 +13,7 @@ router.param("parkingSpotId", getParkingSpotById);
 router.get("/:parkingSpotId",getParkingSpot);
 
 // update a parkingspot based on parkingspot id
-router.put("/:parkingSpotId", updateParkingSpot)
+router.put("/updateSpot", updateParkingSpot)
 
 // delete a parkingspot based on parkingspot id in body
 router.delete("/delete", deleteParkingSpot)

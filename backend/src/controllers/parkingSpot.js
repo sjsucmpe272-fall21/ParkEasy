@@ -46,9 +46,12 @@ exports.addParkingSpot = (req, res) => {
   spotImgUpload(req, res, (error) => {
     if (error) {
       console.log("errors", error);
-      res.json({ error: error });
+      //res.json({ error: error });
+      res
+      .status(400)
+              .json('Error: ' + err)
     } else {
-        let imageLocation = "https://uber-eats-store-0144.s3.us-east-2.amazonaws.com/parkeasy/user/spot/images/defaultSpot-1638073107187.jpg"
+        let imageLocation = process.env.PARKINGSPOT_DEFAULT_IMAGE
       //if file not found, there should be a default image URL/ or we can have that file in the project structure which can be used in that scenario
       if (req.file === undefined) {
         console.log("No File Selected for parkingSpot, use default Image!");
@@ -114,6 +117,7 @@ exports.getParkingSpotById = (req,res,next,id)=>{
             })
         }
         req.parkingSpotId = parkingSpotId;
+        console.log("Inside getParkingSpotById:" + parkingSpotId)
         next();
     })
 }
@@ -123,12 +127,56 @@ exports.getParkingSpot = (req,res) => {
 }
 
 
-// update a parkingspot based on parkingspot id
+// update a parkingspot based
 exports.updateParkingSpot = (req,res) => {
 
+    spotImgUpload(req, res, (error) => {
+      if (error) {
+        console.log("errors", error);
+        //res.json({ error: error });
+        res
+        .status(400)
+                .json('Error: ' + err)
+      }  
+    else{
+
+      const data = req.body;
+      console.log(data)
+    if (req.file === undefined) {
+      console.log("No File Selected for parkingSpot update, use existing URL Image!");
+      imageLocation = data.spotImageUrl
+    } else {
+      const imageName = req.file.key;
+      imageLocation = req.file.location;
+      }
+    
+    const updatedParkingSpot = ({
+      name: data.name,
+      userId: data.userId,
+      description: data.description,
+      address: {
+        addressLine1 : data.addressLine1,
+        addressLine2 : data.addressLine2,
+        city : data.city,
+        state : data.state,
+        country : data.country,
+        zipCode : data.zipCode
+    },
+      latitude: data.latitude,
+      longitude: data.longitude,
+      rate: data.rate,
+      email: data.email,
+      contactNumber: data.contactNumber,
+      availableFrom: data.availableFrom,
+      availableTo: data.availableTo,
+      startTime : data.startTime,
+      endTime : data.endTime,
+      spotImageUrl: imageLocation
+    });
+
     ParkingSpot.findByIdAndUpdate(
-        { _id: req.parkingSpotId._id },
-        { $set: req.body },
+        { _id: data._id },
+        { $set: updatedParkingSpot },
         { new: true, useFindAndModify: false },
         (err, parkingSpotId) => {
          if (err) {
@@ -137,8 +185,10 @@ exports.updateParkingSpot = (req,res) => {
          });
         }
         res.json(parkingSpotId);
-        }
+      }
     )
+  }
+  })
 }
 
 
