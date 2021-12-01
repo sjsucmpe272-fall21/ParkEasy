@@ -22,6 +22,7 @@ import DateRangePicker from '@mui/lab/DateRangePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import NavigationBar from '../User/NavigationBar';
 
 const theme = createTheme();
 
@@ -99,17 +100,18 @@ export default function ParkingLot() {
             contactNumber: data.get('phone'),
             availableFrom: availableDateRange[0],
             availableTo: availableDateRange[1],
+            startTime: fromHrs,
+            endTime: toHrs,
             rate: data.get('rate'),
-            address: {
-                addressLine1: addr1,
-                addressLine2: addr2,
-                city: city,
-                state: state,
-                country: country,
-                zipCode: pincode
-            },
+            addressLine1: addr1,
+            addressLine2: addr2,
+            city: city,
+            state: state,
+            country: country,
+            zipCode: pincode,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            image: image
         };
         if (!isValid(payload)) {
             return;
@@ -117,10 +119,14 @@ export default function ParkingLot() {
         const action = sessionStorage.getItem('action');
         const parkingSpotId = sessionStorage.getItem('selectedParkingId');
         let response;
+        let requestBody = new FormData();
+        for (var key in payload) {
+            requestBody.append(key, payload[key]);
+        }
         if(action === 'edit'){
-            response = await axios.put(`${backendUrl}/park-easy/api/parkingSpot/${parkingSpotId}`, payload);
+            response = await axios.put(`${backendUrl}/park-easy/api/parkingSpot/${parkingSpotId}`, requestBody);
         }else{
-            response = await axios.post(`${backendUrl}/park-easy/api/parkingSpot/add`, payload);
+            response = await axios.post(`${backendUrl}/park-easy/api/parkingSpot/add`, requestBody);
         }
         if (response.data) {
             sessionStorage.removeItem('selectedParkingId');
@@ -142,6 +148,9 @@ export default function ParkingLot() {
         setLatitude(parking.latitude);
         setLongitude(parking.longitude);
         setAvailableDateRange([parking.availableFrom, parking.availableTo]);
+        setImageUrl(parking.spotImageUrl);
+        setFrmHrs(parking.startTime);
+        setToHrs(parking.endTime);
         setRate(parking.rate);
     }
 
@@ -201,6 +210,7 @@ export default function ParkingLot() {
 
     return (
         <>
+            <NavigationBar type='owner' />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
                     <CssBaseline />
@@ -324,6 +334,7 @@ export default function ParkingLot() {
                                         label="From time"
                                         name="fromHrs"
                                         autoComplete="type"
+                                        disabled={disabled}
                                         error={fromHrsError}
                                         helperText={fromHrsHelper}
                                         onChange={(e) => { setFrmHrs(e.target.value); setFromHrsError(false); setFrmHrsHelper(''); setToHrsHelper(''); setToHrsError(false); }}
@@ -347,6 +358,7 @@ export default function ParkingLot() {
                                         label="To time"
                                         name="toHrs"
                                         value={toHrs}
+                                        disabled={disabled}
                                         autoComplete="to"
                                         error={toHrsError}
                                         helperText={toHrsHelper}
@@ -369,6 +381,7 @@ export default function ParkingLot() {
                                         fullWidth
                                         value={rate}
                                         error={rateError}
+                                        inputProps={{ min: 4 }}
                                         helperText={rateHelper}
                                         onChange={(e) => { setRate(e.target.value); setPriceError(false); setPriceHelper(''); }}
                                         type="number"
