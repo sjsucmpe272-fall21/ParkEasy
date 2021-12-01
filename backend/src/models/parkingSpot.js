@@ -45,6 +45,17 @@ const parkingSpotSchema = new Schema({
     longitude : {
         type: Number
     },
+    location: {
+        type: {
+            type:  String,
+            default: "Point",
+            enum: ['Point']
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     rate : {
         type: Number
     },
@@ -77,6 +88,9 @@ const parkingSpotSchema = new Schema({
     }
 
 })
+
+// Create a 2dsphere index on `location` to enable geodistance queries
+parkingSpotSchema.index({ location: '2dsphere' });
 
 const parkingSpot = mongoose.model("ParkingSpot", parkingSpotSchema);
 

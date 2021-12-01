@@ -17,6 +17,7 @@ class SimpleMap extends Component {
 
 	render() {
 		const { markers } = this.props;
+		const center = this.props.center || this.state.center;
 		
 		const defaultMapOptions = {
 			fullscreenControl: false,
@@ -24,9 +25,9 @@ class SimpleMap extends Component {
 			// gestureHandling: "none"
 		};
 
-		const markerOptions = {
-			
-		}
+		const markerOptions = {}
+
+		console.log("Maps::Center::", center)
 
 		return (
 			// Important! Always set the container height explicitly
@@ -34,16 +35,17 @@ class SimpleMap extends Component {
 			<div style={{ height: '100%', width: '100%' }}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: this.API_KEY }}
-					defaultCenter={this.props.center}
+					center={center}
 					defaultZoom={this.props.zoom || 20}
 					options={defaultMapOptions}
 				>
 				
 					{
 						(markers) ? (
-							markers.map((marker) => {
+							markers.map((marker, index) => {
 								return (
 									<Marker
+										key = {index}
 										lat={marker.lat}
 										lng={marker.lng}
 										options={markerOptions}
