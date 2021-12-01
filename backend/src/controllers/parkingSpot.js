@@ -73,8 +73,10 @@ exports.addParkingSpot = (req, res) => {
             country : data.country,
             zipCode : data.zipCode
         },
-          latitude: data.latitude,
-          longitude: data.longitude,
+          location:{
+          "type": "Point",
+          "coordinates": [Number(data.longitude), Number(data.latitude)]
+          },
           rate: data.rate,
           email: data.email,
           contactNumber: data.contactNumber,
@@ -161,9 +163,11 @@ exports.updateParkingSpot = (req,res) => {
         state : data.state,
         country : data.country,
         zipCode : data.zipCode
-    },
-      latitude: data.latitude,
-      longitude: data.longitude,
+       },
+      location:{
+      "type": "Point",
+      "coordinates": [Number(data.longitude), Number(data.latitude)]
+      },
       rate: data.rate,
       email: data.email,
       contactNumber: data.contactNumber,
@@ -220,4 +224,26 @@ exports.getAllParkingSpotsOfOwner = async (req,res)=>{
         return res.status(400).json(spots.error);
     return res.json(spots);
 }
+
+
+// get all the nearest parking spots
+exports.getNearestParkingSpots = (req,res)=>{
+  const userCoordinates = [Number(req.body.longitude), Number(req.body.latitude)]
+  console.log(userCoordinates)
+  ParkingSpot.find(
+    {
+      location:
+        { $near :
+           {
+             $geometry: { type: "Point",  coordinates: userCoordinates },
+             $minDistance: 0,  // in meteres
+             $maxDistance: Number(req.body.maxdist) * 1609.34
+           }
+        }
+    }
+ )
+ .then(spots => res.json(spots))
+ .catch(err => res.status(400).json('Unable to find parking spots at this moment'))
+  }
+
 

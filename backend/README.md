@@ -125,3 +125,7 @@ POST->
 "userId" : "619ee94b1d7566681b629a37"       
 }   
 
+
+
+    Valid longitude values are between -180 and 180, both inclusive.
+    Valid latitude values are between -90 and 90, both inclusive.
