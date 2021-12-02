@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {addParkingSpot, getAllParkingSpots, getParkingSpotById, getParkingSpot, updateParkingSpot, deleteParkingSpot, getAllParkingSpotsOfOwner, getNearestParkingSpots} = require('../controllers/parkingSpot');
+const {addParkingSpot, getAllParkingSpots, getParkingSpotById, getParkingSpot, updateParkingSpot, deleteParkingSpot, getAllParkingSpotsOfOwner} = require('../controllers/parkingSpot');
 
 const parkingSpot = require('../models/parkingSpot');
 
@@ -22,7 +22,7 @@ router.delete("/delete", deleteParkingSpot)
 router.post("/spots", getAllParkingSpotsOfOwner);
 
 // get all the parkingspots based on nearest location from the given longitudes and latitudes
-router.post("/findNearest", getNearestParkingSpots);
+//router.post("/findNearest", getNearestParkingSpots);
 
 
 module.exports = router;

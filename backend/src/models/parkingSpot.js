@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const locationSchema = require('./locationSchema');
+// const locationSchema = require('./locationSchema');
 const Schema = mongoose.Schema;
 
 const parkingSpotSchema = new Schema({
@@ -40,9 +40,9 @@ const parkingSpotSchema = new Schema({
             required: true 
         },
     },
-    location : {
-        type: locationSchema
-    },
+    // location : {
+    //     type: locationSchema
+    // },
     location: {
         type: {
             type:  String,
