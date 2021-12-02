@@ -49,7 +49,7 @@ exports.addParkingSpot = (req, res) => {
       //res.json({ error: error });
       res
       .status(400)
-              .json('Error: ' + err)
+              .json({ error: error })
     } else {
         let imageLocation = process.env.PARKINGSPOT_DEFAULT_IMAGE
       //if file not found, there should be a default image URL/ or we can have that file in the project structure which can be used in that scenario
@@ -200,7 +200,7 @@ exports.updateParkingSpot = (req,res) => {
     });
 
     ParkingSpot.findByIdAndUpdate(
-        { _id: data._id },
+        { _id: req.params.parkingSpotId },
         { $set: updatedParkingSpot },
         { new: true, useFindAndModify: false },
         (err, parkingSpotId) => {

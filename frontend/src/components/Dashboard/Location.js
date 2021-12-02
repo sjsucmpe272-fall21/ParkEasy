@@ -111,7 +111,15 @@ export default function LocationSearchModal(props) {
                     console.error(error);
                 }
             );
-        } else if (navigator.geolocation) {
+        }else{
+            return;
+        }
+
+    }, [props.latitude,props.longitude]);
+
+    useEffect(async () => {
+       if(props.mode!=='edit') return;
+       if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 setLocation({
                     lat: position.coords.latitude,
@@ -145,9 +153,7 @@ export default function LocationSearchModal(props) {
         } else {
             alert("Geolocation not supported");
         }
-
     }, []);
-
 
     const onMarkerDragEnd = (event) => {
 
