@@ -122,6 +122,11 @@ export default function NavigationBar(props) {
       listText: 'Dashboard',
       listPath: '/user/home',
     },
+    {
+      listIcon: <FormatListBulletedIcon />,
+      listText: 'Bookings',
+      listPath: '/user/bookings',
+    }
   ];
   const list = (anchor) => (
     <div

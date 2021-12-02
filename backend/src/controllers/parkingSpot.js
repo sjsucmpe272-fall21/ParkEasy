@@ -72,11 +72,9 @@ exports.addParkingSpot = (req, res) => {
             state : data.state,
             country : data.country,
             zipCode : data.zipCode
-        },
-          location:{
-          "type": "Point",
-          "coordinates": [Number(data.longitude), Number(data.latitude)]
           },
+          latitude: data.latitude,
+          longitude: data.longitude,
           rate: data.rate,
           email: data.email,
           contactNumber: data.contactNumber,
@@ -85,9 +83,14 @@ exports.addParkingSpot = (req, res) => {
           startTime : data.startTime,
           endTime : data.endTime,
           spotImageUrl: imageLocation,
+          location: {
+            coordinates: [ data.longitude, data.latitude ]
+          }
         });
+
         newParkingSpot.save((err, result) => {
           if (err) {
+            console.error("ParkingSpot::Failed to save new slot", err);
             res
               .status(500)
               .send({ message: "Something went wrong!", err });
@@ -101,7 +104,25 @@ exports.addParkingSpot = (req, res) => {
 
 // get all the available parkingspots
 exports.getAllParkingSpots = (req,res) => {
-    ParkingSpot.find()
+
+    let rangeQuery = {};
+    const { query } = req;
+    const { lat, lng, max_dis } = query;
+    const maxDistance = max_dis || 50; // in meters
+
+    if (lat && lng) {
+      rangeQuery["location"] = {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [ lng, lat]
+          },
+          $maxDistance: maxDistance * 1000
+        }
+      };
+    };
+
+    ParkingSpot.find(rangeQuery)
     .then(exercises => res.json(exercises))
     .catch(err => res.status(400).json('Error: ' + err));
 }
