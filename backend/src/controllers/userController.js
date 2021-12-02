@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require( 'path' );
 const url = require('url');
 require('dotenv').config();
+var ParkingSpotManager = require("../manager/parkingSpot");
 
 const s3 = new aws.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -156,3 +157,12 @@ exports.userLogin = async function (req, res) {
         }
 
       };    
+
+
+
+exports.getBookingsForUser = async (req,res)=>{
+        let bookings = await ParkingSpotManager.GetAllBookingsOfUser(req);
+        if(bookings==undefined || bookings.hasOwnProperty('error'))
+            return res.status(400).json(bookings.error);
+        return res.json(bookings);
+    }
