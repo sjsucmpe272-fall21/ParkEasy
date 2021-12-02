@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const locationSchema = require('./locationSchema');
 const Schema = mongoose.Schema;
 
 const parkingSpotSchema = new Schema({
@@ -39,11 +40,8 @@ const parkingSpotSchema = new Schema({
             required: true 
         },
     },
-    latitude : {
-        type: Number
-    },
-    longitude : {
-        type: Number
+    location : {
+        type: locationSchema
     },
     location: {
         type: {

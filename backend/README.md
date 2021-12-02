@@ -69,31 +69,51 @@ REQUEST->
 }
 <br/><br/>
 
-4- update a parkingSpot based on parkingSpot id     <br/>
-http://127.0.0.1:8070/park-easy/api/parkingSpot/619ddf981c1cbeaaa3eedcc3    
+4- update a parkingSpot {send all the details similar to the post call in form-data, also send _id (this is the parking lot id )}    <br/>
+http://127.0.0.1:8070/park-easy/api/parkingSpot/updateSpot    
 
-REQUEST->   
+REQUEST similarly use type as form-data->   
 {   
-"description" : "asdshdsa",     
-"address" : "Test address 1, updated",   
-"latitude" : 323.56,        
-"availableFrom" : "2021-11-25T14:45:44.225z",   
-"availableTo" : "2021-11-26T18:45:44.225z"  
+_id : 61a71f96961651cc474ba931,
+"name" : "Test User2",  
+"userId" : "619ee94b1d7566681b629a37" , 
+"description" : "description test",  
+"addressLine1"  :   "1325 Brook Pl",    
+"addressLine2"  :   "line 2 test",  
+"city"  :   "Mountain View",    
+"state" :   "California",   
+"country"   :   "United States",    
+"zipCode"   :   "94040" ,  
+"latitude" : 123.56,    
+"longitude" : -234.678, 
+"rate" : 4, 
+"email" : "test1@xyz.com",  
+"contactNumber" : 12345,    
+"availableFrom" : "2021-11-25T07:06",   
+"availableTo" : "2021-11-25T19:06", 
+"startTime" : "01:00:00",   
+"endTime"   : "23:22:56",   
+"spotImageUrl"  : "test.image.com" 
+spotImage : file 
 }   
 RESPONSE->  
-{   
-"_id": "619ddf981c1cbeaaa3eedcc3",  
-"description": "asdshdsa",  
-"address": "Test address 1, updated",   
-"latitude": 323.56, 
-"longitude": -234.678,  
-"rate": 4,  
-"email": "test1@xyz.com",   
-"contactNumber": 12345, 
-"createdDate": "2021-11-24T06:45:44.225Z",  
-"__v": 0,   
-"availableFrom": "2021-11-25T14:45:44.225Z",    
-"availableTo": "2021-11-26T18:45:44.225Z"   
+{
+    "_id": "61a71f96961651cc474ba931",
+    "name": "Updated Name",
+    "userId": "619ee94b1d7566681b629a37",
+    "description": "User Updated",
+    "latitude": 10,
+    "longitude": 200,
+    "rate": 5,
+    "email": "new@xyz.com",
+    "availableFrom": "2021-11-25T07:06",
+    "availableTo": "2021-11-26T07:06",
+    "startTime": "15:00:00",
+    "endTime": "18:00:00",
+    "spotImageUrl": "https://uber-eats-store-0144.s3.us-east-2.amazonaws.com/parkeasy/user/spot/images/BP-1638342549651.png",
+    "createdDate": "2021-12-01T07:09:10.315Z",
+    "__v": 0,
+    "contactNumber": 23112
 }
 
 <br/><br/>
@@ -105,3 +125,7 @@ POST->
 "userId" : "619ee94b1d7566681b629a37"       
 }   
 
+
+
+    Valid longitude values are between -180 and 180, both inclusive.
+    Valid latitude values are between -90 and 90, both inclusive.
