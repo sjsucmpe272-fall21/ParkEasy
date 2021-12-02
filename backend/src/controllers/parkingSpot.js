@@ -164,7 +164,7 @@ exports.updateParkingSpot = (req,res) => {
     else{
 
       const data = req.body;
-      console.log(data)
+      
     if (req.file === undefined) {
       console.log("No File Selected for parkingSpot update, use existing URL Image!");
       imageLocation = data.spotImageUrl
@@ -186,8 +186,8 @@ exports.updateParkingSpot = (req,res) => {
         zipCode : data.zipCode
        },
       location:{
-      "type": "Point",
-      "coordinates": [Number(data.longitude), Number(data.latitude)]
+        "type": "Point",
+        coordinates: [ data.longitude, data.latitude ]
       },
       rate: data.rate,
       email: data.email,
@@ -206,7 +206,7 @@ exports.updateParkingSpot = (req,res) => {
         (err, parkingSpotId) => {
          if (err) {
          return res.status(400).json({
-              error: "Updating the user is not successful!!"
+              error: "Updating the user is not successful!!" + err
          });
         }
         res.json(parkingSpotId);
@@ -248,23 +248,23 @@ exports.getAllParkingSpotsOfOwner = async (req,res)=>{
 
 
 // get all the nearest parking spots
-exports.getNearestParkingSpots = (req,res)=>{
-  const userCoordinates = [Number(req.body.longitude), Number(req.body.latitude)]
-  console.log(userCoordinates)
-  ParkingSpot.find(
-    {
-      location:
-        { $near :
-           {
-             $geometry: { type: "Point",  coordinates: userCoordinates },
-             $minDistance: 0,  // in meteres
-             $maxDistance: Number(req.body.maxdist) * 1609.34
-           }
-        }
-    }
- )
- .then(spots => res.json(spots))
- .catch(err => res.status(400).json('Unable to find parking spots at this moment'))
-  }
+// exports.getNearestParkingSpots = (req,res)=>{
+//   const userCoordinates = [Number(req.body.longitude), Number(req.body.latitude)]
+//   console.log(userCoordinates)
+//   ParkingSpot.find(
+//     {
+//       location:
+//         { $near :
+//            {
+//              $geometry: { type: "Point",  coordinates: userCoordinates },
+//              $minDistance: 0,  // in meteres
+//              $maxDistance: Number(req.body.maxdist) * 1609.34
+//            }
+//         }
+//     }
+//  )
+//  .then(spots => res.json(spots))
+//  .catch(err => res.status(400).json('Unable to find parking spots at this moment'))
+//   }
 
 
