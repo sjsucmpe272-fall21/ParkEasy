@@ -15,44 +15,43 @@ class Home extends Component  {
     
     render(){
         return (
-            <Grid style = {{ height: "120vh", backgroundColor: "black"}} container spacing = {16} columns = {16}>
+            <Grid style = {{ height: "119vh", backgroundColor: "black", overflow: "hidden"}} container spacing = {16} columns = {16}>
 
                 <Grid item xs = {16}>
-                    <div style = {{"width": "100%", overflow: "hidden"}}>
                         <NavigationBar type='user' />
-                    </div>
                 </Grid>
 
-                <Grid style = {{ border: "0px solid yellow"}} item xs = {3}></Grid>
-                
-                <Grid item xs = {10} style = {{  border: "0px solid blue"}}>
-                    <Box
-                        sx={{
-                            maxWidth: '100%',
-                        }}
-                        >
+                {/* Search Input */}
+                <Grid item xs = {16} style = {{ padding: 0, height: "15vh", border: "0px solid red", overflow: "hidden"}}>
+                    <div style = {{ "margin-left": "28%", width: "50%"}}>
                         <Autocomplete
                             inputAutocompleteValue={"San Jose State University"}
                             onPlaceSelected={ (place) => this.onPlaceSelected(place)}
                             options={{
                                 types: ["geocode", "establishment"],
                             }}
-                            style = {{height: "7vh", width: "99%", "border": "2px solid blue"}}
+                            style = {{"border-radius": "4vh", "margin": "3vh", padding: "2.5vh", width: "99%", "border": "2px solid blue", "font-size": "3vh"}}
                         />
-                    </Box>
+                    </div>
                 </Grid>
-                
-                {/* <Grid 
+
+                {/* Background Image */}
+                <Grid item xs = {2.25}></Grid>
+
+                <Grid 
+                item 
+                xs = {13} 
                 style = {{ 
-                    height: "60vh", 
-                    "background-image": `url("https://pcdn.columbian.com/wp-content/uploads/2018/03/0307_met_Dog_Moutain_Parking-1226x0-c-default.jpg")`,
-                    "background-repeat": "no-repeat",
-                    "background-size": "cover",
-                    "background-position": "center"
-                }}
-                item xs = {16}
-                >
-                </Grid> */}
+                    height: "70vh", 
+                    border: "0px solid blue",
+                    background: `url("https://filmsupply-files.s3.amazonaws.com/fs/files/production/clip_th/123978/2-h.484.VVxoiNjjmtYlENdyy3MFM2gNaptMFNfK1516Jazx.jpg") no-repeat fixed center`, 
+                    backgroundSize: "100%",
+                    "border-radius": "4vh"
+                    }}>
+                    
+                </Grid>
+
+                {/* <Grid item xs = {1}></Grid> */}
             </Grid>
         )
     }
@@ -60,3 +59,12 @@ class Home extends Component  {
 }
 
 export default Home
+
+{/* <Autocomplete
+                            inputAutocompleteValue={"San Jose State University"}
+                            onPlaceSelected={ (place) => this.onPlaceSelected(place)}
+                            options={{
+                                types: ["geocode", "establishment"],
+                            }}
+                            style = {{height: "7vh", width: "99%", "border": "2px solid blue"}}
+                        /> */}

@@ -15,7 +15,9 @@ const userSchema = new Schema({
     },
     emailId : {
         type: String,
-        trim: true
+        trim: true,
+        index: true,
+        unique: true
     },
     password : {
         type: String,
@@ -29,8 +31,11 @@ const userSchema = new Schema({
     },
     role : {
         type : String
+    },
+    createdAt: {
+        type: Date,
+        default: new Date()
     }
-
 })
 
 userSchema.pre('save', function(next){

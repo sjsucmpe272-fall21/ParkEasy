@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 const parkingSpotRoute = require('./routes/parkingSpot');
 const bodyParser = require("body-parser");
 const cors = require("cors");

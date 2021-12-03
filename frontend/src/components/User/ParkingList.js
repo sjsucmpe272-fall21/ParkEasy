@@ -36,6 +36,7 @@ const ParkingList = (props) => {
                                 alignItems="flex-start"
                                 selected={selectedIndex === index}
                                 onClick={(event) => handleListItemClick(event, index)}
+                                onMouseEnter = { (event) => handleListItemClick(event, index)}
                                 key = {index}
                                 divider={true}
                                 >

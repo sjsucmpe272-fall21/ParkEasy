@@ -24,10 +24,10 @@ const bookingsSchema = new Schema({
         trim: true
     },
     fromTime : {
-        type: Number
+        type: Date
     },
     toTime : {
-        type: Number
+        type: Date
     },
     totalAmount : {
         type: Number
@@ -46,8 +46,9 @@ const bookingsSchema = new Schema({
     },
     transactionId : {
         type : String
-    }
-
+    },
+    description: String,
+    spotImageUrl: String
 })
 
 const bookings = mongoose.model("Bookings", bookingsSchema);

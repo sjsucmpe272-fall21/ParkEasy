@@ -27,8 +27,6 @@ class SimpleMap extends Component {
 
 		const markerOptions = {}
 
-		console.log("Maps::Center::", center)
-
 		return (
 			// Important! Always set the container height explicitly
 			// <div style={{ height: '100vh', width: '100%' }}>

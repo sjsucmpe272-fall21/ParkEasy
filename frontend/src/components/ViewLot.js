@@ -62,16 +62,87 @@ export default class ViewLot extends Component {
             },
             currentLat: null,
             currentLng: null,
-            open: true
+            open: true,
+            fromTime: null,
+            toTime: null
         };
+    };
+
+    handleTimeChange(key, value) {
+        const [ hours, minutes ] = value.split(":");
+    
+        let currentTime = new Date();
+        currentTime.setHours(hours);
+        currentTime.setMinutes(minutes);
+
+        if (currentTime < new Date()) {
+            new Swal("Time must be equal to or greater than the current moment");
+            this.setState({open: false});
+            return;
+        }
+
+        this.setState({
+            [key]: currentTime
+        })
+    };
+
+    async makeNewBooking(data) {
+        try {
+            const url = `${backendUrl}/park-easy/api/user/booking   `;
+            const response = await axios.post(url, data);
+            if (!response || !response.data || !response.data._id) throw response;
+            return response.data;
+        } catch(e) {
+            this.setState({
+                open: false
+            }, () => {
+                new Swal("Failed to book a slot. Please try again");
+            })
+        }
+    };
+
+    handleBookingConfirmation() {
+        const { fromTime, toTime, parkingSlot } = this.state;
+        const { description, spotImageUrl, _id, rate} = parkingSlot;
+
+        const totalAmount = Math.abs(toTime.getHours() - fromTime.getHours()) * rate;
+
+        const userId = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('userId'))
+        .split('=')[1];
+
+        if (!userId) {
+            console.error("Invalid User ID");
+        };
+        
+        const data = { 
+            parkingSpot: _id,
+            fromTime, 
+            toTime,
+            totalAmount,
+            description,
+            spotImageUrl,
+            userId
+
+        };
+
+        this.makeNewBooking(data)
+        .then((response) => {
+            this.setState({open: false});
+            new Swal("Booking confirmed");
+        }).catch(() => {
+            this.setState({open: false});
+            new Swal("Failed to reserve slot");
+        })
     };
 
     async getParkingLotInformation(lotID) {
         try {
             const url = `${backendUrl}/park-easy/api/parkingSpot/${lotID}`;
-            const response = await axios.get(url);
-            if (!(response && response.data)) throw response
-            else return response.data;
+            const response = await axios.get(url, {withCredentials: true});
+            if (!(response && response.data && response.data._id)) throw response
+            return response.data;
         } catch(e) {
             // Error fetching parking slots
             Swal.fire({
@@ -82,16 +153,16 @@ export default class ViewLot extends Component {
         }
     };
 
-    componentWillMount() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.setState({
-                    currentLat: position.coords.latitude,
-                    currentLng: position.coords.longitude,
-                })
-            })
-        };
-    };
+    // componentWillMount() {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition((position) => {
+    //             this.setState({
+    //                 currentLat: position.coords.latitude,
+    //                 currentLng: position.coords.longitude,
+    //             })
+    //         })
+    //     };
+    // };
 
     componentDidMount() {
 
@@ -113,6 +184,7 @@ export default class ViewLot extends Component {
                         this.setState({
                             ...this.state,
                             parkingSlot: {
+                                "_id": parkingLotInformation._id,
                                 "description": parkingLotInformation.description,
                                 "address": `${parkingLotInformation.address.addressLine1} ${parkingLotInformation.address.addressLine2}`,
                                 "rate": parkingLotInformation.rate,
@@ -133,7 +205,8 @@ export default class ViewLot extends Component {
                                 ],
                                 "contact": {
                                     "name": parkingLotInformation.name
-                                }
+                                },
+                                spotImageUrl: parkingLotInformation.spotImageUrl
                             },  
                         })
                     })
@@ -148,7 +221,6 @@ export default class ViewLot extends Component {
         const maxWidth = 'sm';
         
         const coordinates = parkingSlot.coordinates || {};
-        console.log("Coordinates are ", coordinates);
         const slotImages = parkingSlot.images || [];
 
         return (
@@ -361,7 +433,7 @@ export default class ViewLot extends Component {
                                             label="From time"
                                             name="fromHrs"
                                             autoComplete="type"
-                                            // onChange={(e) => { setFrmHrs(e.target.value); setFromHrsError(false); setFrmHrsHelper(''); setToHrsHelper(''); setToHrsError(false); }}
+                                            onChange={(e) => this.handleTimeChange("fromTime", e.target.value)}
                                             autoFocus
                                             // value={fromHrs}
                                             InputLabelProps={{
@@ -387,7 +459,7 @@ export default class ViewLot extends Component {
                                             label="To time"
                                             name="toHrs"
                                             autoComplete="type"
-                                            // onChange={(e) => { setFrmHrs(e.target.value); setFromHrsError(false); setFrmHrsHelper(''); setToHrsHelper(''); setToHrsError(false); }}
+                                            onChange={(e) => this.handleTimeChange("toTime", e.target.value)}
                                             autoFocus
                                             InputLabelProps={{
                                                 shrink: true,
@@ -400,7 +472,7 @@ export default class ViewLot extends Component {
                             </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={(e) => new Swal("Booked")}>Confirm</Button>
+                        <Button onClick={(e) => this.handleBookingConfirmation()}>Confirm</Button>
                         <Button onClick={(e) => this.setState({open: false})}>Close</Button>
                     </DialogActions>
                 </Dialog>
