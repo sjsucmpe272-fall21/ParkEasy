@@ -30,7 +30,7 @@ class Home extends Component  {
                             options={{
                                 types: ["geocode", "establishment"],
                             }}
-                            style = {{"border-radius": "4vh", "margin": "3vh", padding: "2.5vh", width: "99%", "border": "2px solid blue", "font-size": "3vh"}}
+                            style = {{"border-radius": "4vh", "margin": "3vh", padding: "2.5vh", width: "99%", "border": "2px solid blue", "fontSize": "3vh"}}
                         />
                     </div>
                 </Grid>

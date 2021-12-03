@@ -22,3 +22,12 @@ export function calc_distance(lat1, lon1, lat2, lon2) {
   
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 };
+
+export function get_cookie(document, cookie) {
+    if (!document || !document.cookie) return;
+    
+    return document && document.cookie
+        .split('; ')
+        .find(row => row.startsWith(cookie))
+        .split('=')[1];
+};

@@ -21,7 +21,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { getHoursAndSeconds } from "./../utilities/Utility";
+import { getHoursAndSeconds, get_cookie } from "./../utilities/Utility";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import Swal from 'sweetalert2';
@@ -62,7 +62,7 @@ export default class ViewLot extends Component {
             },
             currentLat: null,
             currentLng: null,
-            open: true,
+            open: false,
             fromTime: null,
             toTime: null
         };
@@ -88,7 +88,7 @@ export default class ViewLot extends Component {
 
     async makeNewBooking(data) {
         try {
-            const url = `${backendUrl}/park-easy/api/user/booking   `;
+            const url = `${backendUrl}/park-easy/api/user/booking`;
             const response = await axios.post(url, data);
             if (!response || !response.data || !response.data._id) throw response;
             return response.data;
@@ -103,14 +103,10 @@ export default class ViewLot extends Component {
 
     handleBookingConfirmation() {
         const { fromTime, toTime, parkingSlot } = this.state;
-        const { description, spotImageUrl, _id, rate} = parkingSlot;
+        const { name, description, spotImageUrl, _id, rate, address } = parkingSlot;
 
         const totalAmount = Math.abs(toTime.getHours() - fromTime.getHours()) * rate;
-
-        const userId = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userId'))
-        .split('=')[1];
+        const userId = get_cookie(document, 'userId');
 
         if (!userId) {
             console.error("Invalid User ID");
@@ -123,7 +119,9 @@ export default class ViewLot extends Component {
             totalAmount,
             description,
             spotImageUrl,
-            userId
+            userId,
+            name,
+            address
 
         };
 
@@ -131,6 +129,7 @@ export default class ViewLot extends Component {
         .then((response) => {
             this.setState({open: false});
             new Swal("Booking confirmed");
+            window.open("/user/bookings", "_self");
         }).catch(() => {
             this.setState({open: false});
             new Swal("Failed to reserve slot");
@@ -153,23 +152,17 @@ export default class ViewLot extends Component {
         }
     };
 
-    // componentWillMount() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition((position) => {
-    //             this.setState({
-    //                 currentLat: position.coords.latitude,
-    //                 currentLng: position.coords.longitude,
-    //             })
-    //         })
-    //     };
-    // };
-
     componentDidMount() {
 
         if (!navigator.geolocation) {
             new Swal('Geolocation is not supported by your browser');
         } 
         else {
+            const userId = get_cookie(document, 'userId');
+            if (!userId) {
+                window.open("/login", "_self");
+            };
+
             navigator.geolocation.getCurrentPosition((position) => {
                 this.setState({
                     currentLat: position.coords.latitude,

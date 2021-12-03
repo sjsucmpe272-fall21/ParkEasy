@@ -48,7 +48,9 @@ const bookingsSchema = new Schema({
         type : String
     },
     description: String,
-    spotImageUrl: String
+    spotImageUrl: String,
+    address: String,
+    name: String
 })
 
 const bookings = mongoose.model("Bookings", bookingsSchema);

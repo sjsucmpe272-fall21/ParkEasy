@@ -99,7 +99,7 @@ class SearchParking extends Component  {
                             options={{
                                 types: ["geocode", "establishment"],
                             }}
-                            style = {{height: "8vh", width: "99%", "border-radius": "4vh", "font-size": "3vh", padding: "0.5vh"}}
+                            style = {{height: "8vh", width: "99%", "borderRadius": "4vh", "fontSize": "3vh", padding: "0.5vh"}}
                         />
                     </div>
                 </Grid>
