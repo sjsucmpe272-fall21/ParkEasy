@@ -21,4 +21,8 @@ router.delete("/delete", deleteParkingSpot)
 // get all the parkingspots based on userId
 router.post("/spots", getAllParkingSpotsOfOwner);
 
+// get all the parkingspots based on nearest location from the given longitudes and latitudes
+//router.post("/findNearest", getNearestParkingSpots);
+
+
 module.exports = router;

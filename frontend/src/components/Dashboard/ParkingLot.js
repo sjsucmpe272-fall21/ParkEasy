@@ -53,10 +53,11 @@ export default function ParkingLot() {
     const [country, setCountry] = useState('');
     const [state, setState] = useState('');
     const [pincode, setPincode] = useState('');
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
     const [availableDateRange, setAvailableDateRange] = useState([null, null]);
     const [locationError, setLocationError] = useState(false);
+    const [mode,setMode] = useState('');
     const navigate = useNavigate();
 
 
@@ -145,8 +146,8 @@ export default function ParkingLot() {
         setAddr1(parking.address.addressLine1);
         setAddr2(parking.address.addressLine2);
         setPincode(parking.address.zipCode);
-        setLatitude(parking.latitude);
-        setLongitude(parking.longitude);
+        setLatitude(parking.location.coordinates[1]);
+        setLongitude(parking.location.coordinates[0]);
         setAvailableDateRange([parking.availableFrom, parking.availableTo]);
         setImageUrl(parking.spotImageUrl);
         setFrmHrs(parking.startTime);
@@ -157,6 +158,7 @@ export default function ParkingLot() {
     useEffect(async () => {
         const action = sessionStorage.getItem('action');
         if (action === 'edit' || action === 'view') {
+            setMode('edit');
             const parkingSpotId = sessionStorage.getItem('selectedParkingId');
             const response = await axios.get(`${backendUrl}/park-easy/api/parkingSpot/${parkingSpotId}`);
             setParkingData(response.data);
@@ -381,7 +383,7 @@ export default function ParkingLot() {
                                         fullWidth
                                         value={rate}
                                         error={rateError}
-                                        inputProps={{ min: 4 }}
+                                        inputProps={{ min: 0 }}
                                         helperText={rateHelper}
                                         onChange={(e) => { setRate(e.target.value); setPriceError(false); setPriceHelper(''); }}
                                         type="number"
@@ -396,7 +398,7 @@ export default function ParkingLot() {
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <LocationSearchModal latitude={latitude} longitude={longitude} onPlaceSelected={onPlaceSelected} onMarkerChanged={onMarkerChanged} />
+                                    <LocationSearchModal mode={mode} latitude={latitude} longitude={longitude} onPlaceSelected={onPlaceSelected} onMarkerChanged={onMarkerChanged} />
                                 </Grid>
 
                                 <Grid item xs={12}>
