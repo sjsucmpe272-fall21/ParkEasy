@@ -126,37 +126,43 @@ exports.userLogin = async function (req, res) {
         console.log(data);
 
         try{
-            const user = await User.findOne({emailId: data.username});
+            const user = await User.findOne({emailId: data.email});
             console.log("user "+user);
-            const result = await user.comparePassword(data.password);
-            console.log("Result from compare: "+result);
-            if(result){
-                console.log("Login successful");
-                res.cookie('cookie',"user",{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userId',user._id,{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userEmail',user.emailId,{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userFirstName',user.firstName,{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userLastName',user.lastName,{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userImageLink',user.profileImageUrl,{maxAge: 900000, httpOnly: false, path : '/'});
-                res.cookie('userLocation',user.address.city,{maxAge: 900000, httpOnly: false, path : '/'});
-
-                res.writeHead(200,{
-                'Content-Type' : 'text/plain'
-                })
-                res.end("Successful Login");
-
-
-            } else {
+            if(!user){
                 res
                     .status(400)
                     .send(JSON.stringify({ message: "Invalid login credentials." }));
+            } else {
+                const result = await user.comparePassword(data.password);
+                console.log("Result from compare: "+result);
+                if(result){
+                    console.log("Login successful");
+                    res.cookie('cookie',"user",{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userId',user._id,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userEmail',user.emailId,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userFirstName',user.firstName,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userLastName',user.lastName,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userImageLink',user.profileImageUrl,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userLocation',user.address.city,{maxAge: 900000, httpOnly: false, path : '/'});
 
+                    res.writeHead(200,{
+                    'Content-Type' : 'text/plain'
+                    })
+                    res.end("Successful Login");
+
+
+                } else {
+                    res
+                        .status(400)
+                        .send(JSON.stringify({ message: "Invalid login credentials." }));
+
+                }
             }
         } catch(err){
 
         }
 
-      };    
+      };
 
 
 

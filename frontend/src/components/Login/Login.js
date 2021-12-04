@@ -56,6 +56,9 @@ export default function SignIn() {
                 //   this.props.history.push("/user/home");
                   navigate('/user/home');
                 }
+            } else {
+              console.log("Invalid login credentials");
+              alert('Invalid login credentials! Please try again');
             }
         })
         .catch(err => {
@@ -64,7 +67,9 @@ export default function SignIn() {
                 //     authFlag : false,
                 //     errorMessage: "Invalid credentials"
                 // })
-                console.err("Error in Signin : "+err);
+                console.log("Error in Signin : "+err);
+                alert('Invalid login credentials! Please try again');
+
             }
 
         });
