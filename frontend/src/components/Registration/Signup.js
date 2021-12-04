@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import axios from 'axios';
+import { backendUrl } from '../../config';
+require('dotenv').config();
 
 const theme = createTheme();
 
@@ -49,12 +51,13 @@ export default class SignUp extends React.Component{
         console.log("formData "+JSON.stringify(formData));
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        await axios.post('http://localhost:8070/park-easy/api/user/register', formData)
+        await axios.post(`${backendUrl}/park-easy/api/user/register`, formData)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
 
-                    this.props.history.push("/login");
+                    // this.props.history.push("/login");
+                    window.open("/login", "_self")
 
                 }
             })

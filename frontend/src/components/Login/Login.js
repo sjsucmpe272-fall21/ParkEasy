@@ -16,6 +16,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Swal from 'sweetalert2';
+import { backendUrl } from '../../config';
+require('dotenv').config();
+
 
 const theme = createTheme();
 
@@ -41,7 +44,7 @@ export default function SignIn() {
     console.log("payload : "+JSON.stringify(payload));
     axios.defaults.withCredentials = true;
     //make a post request with the user data
-    await axios.post('http://localhost:8070/park-easy/api/login', payload)
+    await axios.post(`${backendUrl}/park-easy/api/login`, payload)
         .then(response => {
             console.log("Status Code : ",response.status);
             if(response.status === 200){

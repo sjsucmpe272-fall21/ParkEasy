@@ -1,6 +1,7 @@
 const ParkingSpot = require('../models/parkingSpot');
 const User = require('../models/user');
 var ParkingSpotManager = require("../manager/parkingSpot")
+const mongoose = require('mongoose');
 
 // New Changes for image upload
 const aws = require("aws-sdk");
@@ -8,6 +9,7 @@ const multerS3 = require("multer-s3");
 const multer = require("multer");
 const path = require("path");
 const url = require("url");
+const { response } = require('express');
 require("dotenv").config();
 
 const s3 = new aws.S3({
@@ -159,7 +161,7 @@ exports.updateParkingSpot = (req,res) => {
         //res.json({ error: error });
         res
         .status(400)
-                .json('Error: ' + err)
+                .json('Not Able to Update the user at this moment')
       }  
     else{
 
@@ -219,7 +221,7 @@ exports.updateParkingSpot = (req,res) => {
 
 // delete a parkingspot based on parkingspot id in body
 exports.deleteParkingSpot = (req,res)=>{
-    ParkingSpot.findByIdAndDelete(req.body.parkingSpotId,(err,spot)=>{
+    ParkingSpot.findByIdAndDelete(req.params.parkingSpotId,(err,spot)=>{
         if (err){
             console.log(err);
             return res.status(400).json({
@@ -237,13 +239,22 @@ exports.deleteParkingSpot = (req,res)=>{
 
 
 // get all the parkingspots for a given user(owner)
-exports.getAllParkingSpotsOfOwner = async (req,res)=>{
-    console.log("Inside Controller")
-    console.log(req.body.userID)
-    let spots = await ParkingSpotManager.GetAllParkingSpotOfUser(req);
-    if(spots==undefined || spots.hasOwnProperty('error'))
-        return res.status(400).json(spots.error);
-    return res.json(spots);
+exports.getAllParkingSpotsOfOwner =  (req,res)=>{
+
+   return ParkingSpot.find({ userId : req.body.userId },(err,spot)=>{
+      if (err){
+          console.log(err);
+          return res.status(400).json({
+              error: "No Parking Spot Available"
+          });
+      }
+      else{
+          //console.log(spot);
+          return res.json(spot);
+      }
+      
+  })
+  
 }
 
 
