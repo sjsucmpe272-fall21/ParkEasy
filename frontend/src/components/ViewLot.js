@@ -167,43 +167,43 @@ export default class ViewLot extends Component {
                 this.setState({
                     currentLat: position.coords.latitude,
                     currentLng: position.coords.longitude,
-                }, () => {
-                    const URLParameters = window.location.pathname;
-                    const parameters = URLParameters.split("/");
-                    const slotID = parameters[parameters.length - 1];
-                    
-                    this.getParkingLotInformation(slotID)
-                    .then((parkingLotInformation) => {
-                        this.setState({
-                            ...this.state,
-                            parkingSlot: {
-                                "_id": parkingLotInformation._id,
-                                "description": parkingLotInformation.description,
-                                "address": `${parkingLotInformation.address.addressLine1} ${parkingLotInformation.address.addressLine2}`,
-                                "rate": parkingLotInformation.rate,
-                                "email": parkingLotInformation.email,
-                                "contactNumber": parkingLotInformation.contactNumber,
-                                "availableFrom": `Available from ${getHoursAndSeconds(new Date(parkingLotInformation.availableFrom))}`,
-                                "availableTo": `To ${getHoursAndSeconds(new Date(parkingLotInformation.availableFrom))}`,
-                                "coordinates": {
-                                    "lat": parkingLotInformation.location.coordinates[1],
-                                    "lng": parkingLotInformation.location.coordinates[0],
-                                },
-                                "review": parkingLotInformation.review,
-                                "images": [
-                                    "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-morrison-park/gallery/34--building-exterior.jpg?rev=1dad7e5dfc6e4fdd83c824a73e2a0b62&w=900&h=560&as=1",
-                                    "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-on-the-alameda/gallery/27--on-site-retail.jpg?rev=460b3c149051434a9cf6113fc15ae03c&w=900&h=560&as=1",
-                                    "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-morrison-park/gallery/31--building-exterior.jpg?rev=9481122a139d44b3b281ba39783eb57e&w=900&h=560&as=1",
-                                    "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-on-the-alameda/gallery/27--on-site-retail.jpg?rev=460b3c149051434a9cf6113fc15ae03c&w=900&h=560&as=1"
-                                ],
-                                "contact": {
-                                    "name": parkingLotInformation.name
-                                },
-                                spotImageUrl: parkingLotInformation.spotImageUrl
-                            },  
-                        })
+                }, () => {});
+                const URLParameters = window.location.pathname;
+                const parameters = URLParameters.split("/");
+                const slotID = parameters[parameters.length - 1];
+                
+                this.getParkingLotInformation(slotID)
+                .then((parkingLotInformation) => {
+                    this.setState({
+                        ...this.state,
+                        parkingSlot: {
+                            "_id": parkingLotInformation._id,
+                            "description": parkingLotInformation.description,
+                            "address": `${parkingLotInformation.address.addressLine1} ${parkingLotInformation.address.addressLine2}`,
+                            "rate": parkingLotInformation.rate,
+                            "email": parkingLotInformation.email,
+                            "contactNumber": parkingLotInformation.contactNumber,
+                            "availableFrom": `Available from ${getHoursAndSeconds(new Date(parkingLotInformation.availableFrom))}`,
+                            "availableTo": `To ${getHoursAndSeconds(new Date(parkingLotInformation.availableFrom))}`,
+                            "coordinates": {
+                                "lat": parkingLotInformation.location.coordinates[1],
+                                "lng": parkingLotInformation.location.coordinates[0],
+                            },
+                            "review": parkingLotInformation.review,
+                            "images": [
+                                "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-morrison-park/gallery/34--building-exterior.jpg?rev=1dad7e5dfc6e4fdd83c824a73e2a0b62&w=900&h=560&as=1",
+                                "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-on-the-alameda/gallery/27--on-site-retail.jpg?rev=460b3c149051434a9cf6113fc15ae03c&w=900&h=560&as=1",
+                                "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-morrison-park/gallery/31--building-exterior.jpg?rev=9481122a139d44b3b281ba39783eb57e&w=900&h=560&as=1",
+                                "https://www.avaloncommunities.com/-/media/images/community-photos/california/northern-california/avalon-on-the-alameda/gallery/27--on-site-retail.jpg?rev=460b3c149051434a9cf6113fc15ae03c&w=900&h=560&as=1"
+                            ],
+                            "contact": {
+                                "name": parkingLotInformation.name
+                            },
+                            spotImageUrl: parkingLotInformation.spotImageUrl
+                        },  
                     })
                 })
+                // })
             });
         }
     };
