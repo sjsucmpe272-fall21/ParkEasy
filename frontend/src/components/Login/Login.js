@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import  {Component} from 'react';
 import axios from 'axios';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import Swal from 'sweetalert2';
 
 const theme = createTheme();
 
@@ -52,23 +53,30 @@ export default class SignInSide extends Component {
                         authFlag : true
                     })
                     if(this.state.userType === "owner"){
-                      this.props.history.push("/owner/home");
+                      window.open("/owner/home", "_self");
                     } else {
-                      this.props.history.push("/user/home");
+                      window.open("/user/home", "_self");
                     }
-                }else {
+                    // if(this.state.userType === "owner"){
+                    //   this.props.history.push("/owner/home");
+                    // } else {
+                    //   this.props.history.push("/user/home");
+                    // }
+                } else {
                     this.setState({
                         authFlag : false
                     })
-
+                    new Swal("Invalid credentials");
                 }
             })
             .catch(err => {
+                new Swal("Invalid credentials. Please try again");
                 if(err.response && err.response.status === 400){
                     this.setState({
                         authFlag : false,
                         errorMessage: "Invalid credentials"
                     })
+                    
                 }
 
             });
@@ -151,7 +159,7 @@ export default class SignInSide extends Component {
                   <Button
                     type="submit"
                     fullWidth
-                    onClick
+                    // onClick // No handler assigned to onClick event
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >

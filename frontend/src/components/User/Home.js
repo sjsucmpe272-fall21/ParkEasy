@@ -30,7 +30,7 @@ class Home extends Component  {
                             options={{
                                 types: ["geocode", "establishment"],
                             }}
-                            style = {{"border-radius": "4vh", "margin": "3vh", padding: "2.5vh", width: "99%", "border": "2px solid blue", "fontSize": "3vh"}}
+                            style = {{"border-radius": "4vh", "margin": "2vh", padding: "2vh", width: "99%", "border": "2px solid blue", "fontSize": "3vh"}}
                         />
                     </div>
                 </Grid>
@@ -42,7 +42,7 @@ class Home extends Component  {
                 item 
                 xs = {13} 
                 style = {{ 
-                    height: "70vh", 
+                    height: "75vh", 
                     border: "0px solid blue",
                     background: `url("https://filmsupply-files.s3.amazonaws.com/fs/files/production/clip_th/123978/2-h.484.VVxoiNjjmtYlENdyy3MFM2gNaptMFNfK1516Jazx.jpg") no-repeat fixed center`, 
                     backgroundSize: "100%",

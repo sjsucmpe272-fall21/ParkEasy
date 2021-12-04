@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { Grid, Button } from '@mui/material';   
 import Divider from '@mui/material/Divider';
-import { calc_distance } from '../../utilities/Utility';
+import { calc_distance, convertMetersToMiles } from '../../utilities/Utility';
 
 const ParkingList = (props) => {
 
@@ -40,8 +40,8 @@ const ParkingList = (props) => {
                                 key = {index}
                                 divider={true}
                                 >
-                                    <ListItemAvatar>
-                                        <Avatar alt="Remy Sharp" src = {lot.spotImageUrl} />
+                                    <ListItemAvatar style = {{width: "30%"}}>
+                                        <Avatar alt="Remy Sharp" src = {lot.spotImageUrl} style={{ height: '20vh', width: '100%', borderRadius: "0" }}/>
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={lot.title}
@@ -52,11 +52,19 @@ const ParkingList = (props) => {
                                                 </Typography>
                                             </React.Fragment>
                                         }
+                                        style = {{ margin: "5% 0% 0% 5%", width: "50%"}}
                                     />
                                     <ListItemButton 
                                     divider={true}
                                     >
-                                    { `${parseFloat(calc_distance(props.currentLat, props.currentLng, lot.location.coordinates[1], lot.location.coordinates[0]).toPrecision(2))} Kilometers`}
+                                        <div style = {{ margin: "15% 5% 10% 0%", width: "20%"}}>
+                                            {`${
+                                                    parseFloat(
+                                                        convertMetersToMiles(calc_distance(props.currentLat, props.currentLng, lot.location.coordinates[1], lot.location.coordinates[0]))
+                                                    ).toPrecision(2)    
+                                                } miles
+                                            `}
+                                        </div>
                                     </ListItemButton>
                                 </ListItem>    
 
@@ -71,8 +79,9 @@ const ParkingList = (props) => {
                                 variant="contained" 
                                 size="large" 
                                 onClick={(event) => handleSlotSelected(event, lot._id)}
+                                style = {{backgroundColor: "#9DDED3", borderRadius: "4vh"}}
                                 >
-                                    Available @ {lot.rate}$/hour
+                                    Book at {lot.rate}$/hour
                                 </Button>
                             </Grid>
                             

@@ -23,6 +23,14 @@ export function calc_distance(lat1, lon1, lat2, lon2) {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 };
 
+export function convertMetersToMiles(meters, inKms = true) {
+    let unit;
+    unit = 0.000621371 * meters;
+    if (inKms) 
+        unit *= 1000;
+    return unit;
+};
+
 export function get_cookie(document, cookie) {
     if (!document || !document.cookie) return;
     

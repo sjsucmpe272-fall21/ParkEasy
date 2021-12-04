@@ -27,7 +27,7 @@ import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { backendUrl } from "./../config";
-import { calc_distance } from "./../utilities/Utility";
+import { calc_distance, convertMetersToMiles } from "./../utilities/Utility";
 import NavigationBar from './User/NavigationBar';
 
 export default class ViewLot extends Component {
@@ -276,15 +276,6 @@ export default class ViewLot extends Component {
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <TitleIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={parkingSlot.description} />
-                                </ListItemButton>
-                            </ListItem>
-
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
                                         <HomeIcon />
                                     </ListItemIcon>
                                     <ListItemText primary={parkingSlot.address} />
@@ -309,6 +300,15 @@ export default class ViewLot extends Component {
                                 </ListItemButton>
                             </ListItem>
 
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <TitleIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={parkingSlot.description} />
+                                </ListItemButton>
+                            </ListItem>
+
 
                         </List>
                     </Grid>
@@ -320,7 +320,9 @@ export default class ViewLot extends Component {
                                     <ListItemIcon>
                                         <DirectionsCarFilledIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={`${parseFloat(calc_distance(currentLat, currentLng, parkingSlot.coordinates.lat, parkingSlot.coordinates.lng).toPrecision(2))} KMs from current location`} />
+                                    <ListItemText 
+                                    primary={`${parseFloat(convertMetersToMiles(calc_distance(currentLat, currentLng, parkingSlot.coordinates.lat, parkingSlot.coordinates.lng)).toPrecision(2))} miles from current location`} 
+                                    />
                                 </ListItemButton>
                             </ListItem>
 
@@ -360,6 +362,7 @@ export default class ViewLot extends Component {
                         size="large" 
                         onClick={() => this.setState({open: true})}
                         fullWidth
+                        style = {{ backgroundColor: "green", borderRadius: "4vh"}}
                         >
                             Book at { parkingSlot.rate }$ per hour
                         </Button>

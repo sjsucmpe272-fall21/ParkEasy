@@ -104,18 +104,28 @@ class SearchParking extends Component  {
                     </div>
                 </Grid>
 
+                <Grid style = {{ height: "1px", width: "100%", borderBottom: "1px solid black"}} item xs = { 16 }>
+                </Grid>
                 {/* PARKING SPOTS AND THEIR POSITIONS ON MAP */}
                 <Grid item xs={8}>
-                    <div style = {{border: "1px solid black", height: "80vh", overflow: 'auto'}}>
-                        <ParkingList 
-                        parkingLots = { parkingLots }
-                        currentLat = {currentLat}
-                        currentLng = {currentLng}
-                        />
+                    <div style = {{border: "0px solid black", height: "80vh", overflow: 'hidden'}}>
+                        <div style = {{
+                                border: "0px solid black", 
+                                height: "100%",
+                                "margin-right": "-50px",
+                                "padding-right": "50px",
+                                "overflow-y": "scroll"
+                            }}>
+                            <ParkingList 
+                            parkingLots = { parkingLots }
+                            currentLat = {currentLat}
+                            currentLng = {currentLng}
+                            />
+                        </div>
                     </div>
                 </Grid>
                 <Grid item xs={8}>
-                    <div style = {{border: "1px solid black", height: '80vh'}}>
+                    <div style = {{border: "0px solid black", height: '80vh'}}>
                         <Maps
                         markers = { mapMarkers }
                         zoom = {12} 
