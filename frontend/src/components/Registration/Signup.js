@@ -61,7 +61,6 @@ export default class SignUp extends React.Component{
             .catch(err => {
                 if(err.response){
                     this.setState({
-
                         errorMessage: "Somethig went wrong"
                     })
                 }
