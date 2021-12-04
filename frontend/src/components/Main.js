@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import LandingPage from './LandingPage';
-import Login from './Login/Login';
+import SignIn from './Login/Login';
 import Home from './User/Home';
 import SearchParking from "./User/SearchParking";
 import ViewLot from "./ViewLot";
@@ -16,7 +16,7 @@ class Main extends Component {
         return(
                 <Routes>
                     <Route path="/" exact element={<LandingPage/>}></Route>
-                    <Route path="/login" exact element={<Login/>}></Route>
+                    <Route path="/login" exact element={<SignIn/>}></Route>
                     <Route path="/signup" exact element={<SignUp/>}></Route>
                     <Route path="/user/home" exact element={<Home/>}></Route>
                     <Route path = "/user/search" exact element = {<SearchParking />}></Route>
