@@ -1,10 +1,11 @@
 const ParkingSpot = require('../models/parkingSpot');
 const Bookings = require('../models/bookings');
 
+
 module.exports = {
     GetAllParkingSpotOfUser: function(req) {
         console.log("Inside Manager")
-        return ParkingSpot.find({ userId : req.body.userId })
+        ParkingSpot.find({ userId : req.body.userId }) 
             .exec()
             .then((spots) => {
                 return spots;
