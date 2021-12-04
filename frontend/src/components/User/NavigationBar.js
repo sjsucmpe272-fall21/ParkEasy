@@ -65,9 +65,9 @@ export default function NavigationBar(props) {
 
 }, []);
 
- 
+
   const onLogout = () => {
-    navigate("/");
+    navigate("/login");
   };
 
 
