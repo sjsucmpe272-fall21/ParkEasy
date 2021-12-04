@@ -1,6 +1,12 @@
 export function getHoursAndSeconds(datetime_string) {
     const datetime = new Date(datetime_string);
-    return `${datetime.getUTCHours()}:${datetime.getUTCMinutes()|| "00"}`
+    console.log("Datetime string = ", datetime_string);
+    let minutes = datetime.getUTCMinutes();
+    if (!minutes) 
+        return `${datetime.getUTCHours()}:00`;
+    if (minutes < 10)
+        minutes = `0${minutes}`;
+    return `${datetime.getUTCHours()}: ${minutes}`
 }
 
 export function getLatLngFromGoogleAutoComplete(place) {
