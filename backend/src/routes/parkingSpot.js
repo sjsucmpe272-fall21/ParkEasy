@@ -16,7 +16,7 @@ router.get("/:parkingSpotId",getParkingSpot);
 router.put("/:parkingSpotId", updateParkingSpot)
 
 // delete a parkingspot based on parkingspot id in body
-router.delete("/delete", deleteParkingSpot)
+router.delete("/delete/:parkingSpotId", deleteParkingSpot)
 
 // get all the parkingspots based on userId
 router.post("/spots", getAllParkingSpotsOfOwner);

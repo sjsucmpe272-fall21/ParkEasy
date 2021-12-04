@@ -23,6 +23,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import NavigationBar from '../User/NavigationBar';
+import Cookies from 'react-cookies';
 
 const theme = createTheme();
 
@@ -90,11 +91,9 @@ export default function ParkingLot() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
-        //const ownerID = sessionStorage.getItem('userId');
-        const ownerID = '619f0253527e6c08a6b56139';
+        const ownerID = Cookies.load('userId');
         const payload = {
-            ownerID,
+            userId: ownerID,
             name: data.get('name'),
             description: data.get('desc'),
             email: data.get('email'),
@@ -112,7 +111,7 @@ export default function ParkingLot() {
             zipCode: pincode,
             latitude: latitude,
             longitude: longitude,
-            image: image
+            spotImage: image
         };
         if (!isValid(payload)) {
             return;
@@ -312,6 +311,7 @@ export default function ParkingLot() {
                                             startText="Available from date"
                                             endText="Available to date"
                                             value={availableDateRange}
+                                            disabled={disabled}
                                             onChange={(newValue) => {
                                                 setAvailableDateRange(newValue);
                                             }}
@@ -407,6 +407,7 @@ export default function ParkingLot() {
                                         id="address1"
                                         name="address1"
                                         label="Address line 1"
+                                        disabled={disabled}
                                         fullWidth
                                         value={addr1}
                                         onChange={(e) => { setAddr1(e.target.value); }}
@@ -419,6 +420,7 @@ export default function ParkingLot() {
                                         id="address2"
                                         name="address2"
                                         label="Address line 2"
+                                        disabled={disabled}
                                         fullWidth
                                         value={addr2}
                                         onChange={(e) => { setAddr2(e.target.value); }}
@@ -432,6 +434,7 @@ export default function ParkingLot() {
                                         id="city"
                                         name="city"
                                         label="City"
+                                        disabled={disabled}
                                         fullWidth
                                         value={city}
                                         onChange={(e) => { setCity(e.target.value); }}
@@ -444,6 +447,7 @@ export default function ParkingLot() {
                                         id="state"
                                         name="state"
                                         label="State/Province/Region"
+                                        disabled={disabled}
                                         fullWidth
                                         required
                                         value={state}
@@ -457,6 +461,7 @@ export default function ParkingLot() {
                                         id="zip"
                                         name="zip"
                                         label="Zip / Postal code"
+                                        disabled={disabled}
                                         fullWidth
                                         value={pincode}
                                         onChange={(e) => { setPincode(e.target.value); }}
@@ -470,6 +475,7 @@ export default function ParkingLot() {
                                         id="country"
                                         name="country"
                                         label="Country"
+                                        disabled={disabled}
                                         fullWidth
                                         value={country}
                                         onChange={(e) => { setCountry(e.target.value); }}

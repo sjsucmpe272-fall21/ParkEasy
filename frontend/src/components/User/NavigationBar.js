@@ -85,22 +85,11 @@ export default function NavigationBar(props) {
       listText: 'Dashboard',
       listPath: '/owner/home',
     },
-
-    {
-      listIcon: <AccountBoxIcon />,
-      listText: 'Profile',
-      listPath: '/owner/profile',
-    },
     {
       listIcon: <AddCardIcon />,
       listText: 'Parking Lot',
       listPath: '/owner/add-parkinglot',
-    },
-    {
-      listIcon: <FormatListBulletedIcon />,
-      listText: 'Bookings',
-      listPath: '/owner/bookings',
-    },
+    }
   ];
 
   const general = [

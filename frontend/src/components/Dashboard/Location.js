@@ -118,7 +118,8 @@ export default function LocationSearchModal(props) {
     }, [props.latitude,props.longitude]);
 
     useEffect(async () => {
-       if(props.mode!=='edit') return;
+       const action = sessionStorage.getItem('action');
+       if(action === 'edit' || action === 'view') return;
        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 setLocation({
