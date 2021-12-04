@@ -61,7 +61,6 @@ export default class SignUp extends React.Component{
             .catch(err => {
                 if(err.response){
                     this.setState({
-
                         errorMessage: "Somethig went wrong"
                     })
                 }
@@ -142,7 +141,7 @@ export default class SignUp extends React.Component{
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
+
                         fullWidth
                         onChange={this.onChangeField}
                         id="street"
@@ -153,7 +152,7 @@ export default class SignUp extends React.Component{
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
+
                         fullWidth
                         onChange={this.onChangeField}
                         id="city"
@@ -164,7 +163,7 @@ export default class SignUp extends React.Component{
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
+
                         fullWidth
                         onChange={this.onChangeField}
                         id="state"
@@ -175,7 +174,7 @@ export default class SignUp extends React.Component{
                      </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
+
                         fullWidth
                         onChange={this.onChangeField}
                         id="country"
@@ -186,7 +185,7 @@ export default class SignUp extends React.Component{
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
+
                         fullWidth
                         onChange={this.onChangeField}
                         id="zipcode"
