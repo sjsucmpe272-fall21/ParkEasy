@@ -81,9 +81,6 @@ class SearchParking extends Component  {
             };
         });
         
-
-        console.log("Current lat and lng are ", currentLat, currentLng)
-
         return (
             <Grid container spacing={2} columns={16} style = {{ height: "100%", overflow: 'auto'}}>
                 {/* NAVIGATION */}
@@ -95,30 +92,40 @@ class SearchParking extends Component  {
 
                 {/* SEARCH */}
                 <Grid item xs = { 16 }>
-                    <div style = {{border: "1px solid black"}}> 
+                    <div style = {{border: "0px solid black"}}> 
                         <Autocomplete
                             inputAutocompleteValue={"San Jose State University"}
                             onPlaceSelected={(place) => this.onPlaceSelected(place)}
                             options={{
                                 types: ["geocode", "establishment"],
                             }}
-                            style = {{height: "8vh", width: "99%"}}
+                            style = {{height: "8vh", width: "99%", "borderRadius": "4vh", "fontSize": "3vh", padding: "0.5vh"}}
                         />
                     </div>
                 </Grid>
 
+                <Grid style = {{ height: "1px", width: "100%", borderBottom: "1px solid black"}} item xs = { 16 }>
+                </Grid>
                 {/* PARKING SPOTS AND THEIR POSITIONS ON MAP */}
                 <Grid item xs={8}>
-                    <div style = {{border: "1px solid black", height: "80vh", overflow: 'auto'}}>
-                        <ParkingList 
-                        parkingLots = { parkingLots }
-                        currentLat = {currentLat}
-                        currentLng = {currentLng}
-                        />
+                    <div style = {{border: "0px solid black", height: "80vh", overflow: 'hidden'}}>
+                        <div style = {{
+                                border: "0px solid black", 
+                                height: "100%",
+                                "margin-right": "-50px",
+                                "padding-right": "50px",
+                                "overflow-y": "scroll"
+                            }}>
+                            <ParkingList 
+                            parkingLots = { parkingLots }
+                            currentLat = {currentLat}
+                            currentLng = {currentLng}
+                            />
+                        </div>
                     </div>
                 </Grid>
                 <Grid item xs={8}>
-                    <div style = {{border: "1px solid black", height: '80vh'}}>
+                    <div style = {{border: "0px solid black", height: '80vh'}}>
                         <Maps
                         markers = { mapMarkers }
                         zoom = {12} 

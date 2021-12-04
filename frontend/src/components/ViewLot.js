@@ -21,13 +21,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { getHoursAndSeconds } from "./../utilities/Utility";
+import { getHoursAndSeconds, get_cookie } from "./../utilities/Utility";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { backendUrl } from "./../config";
-import { calc_distance } from "./../utilities/Utility";
+import { calc_distance, convertMetersToMiles } from "./../utilities/Utility";
 import NavigationBar from './User/NavigationBar';
 
 export default class ViewLot extends Component {
@@ -62,16 +62,86 @@ export default class ViewLot extends Component {
             },
             currentLat: null,
             currentLng: null,
-            open: true
+            open: false,
+            fromTime: null,
+            toTime: null
         };
+    };
+
+    handleTimeChange(key, value) {
+        const [ hours, minutes ] = value.split(":");
+    
+        let currentTime = new Date();
+        currentTime.setHours(hours);
+        currentTime.setMinutes(minutes);
+
+        if (currentTime < new Date()) {
+            new Swal("Time must be equal to or greater than the current moment");
+            this.setState({open: false});
+            return;
+        }
+
+        this.setState({
+            [key]: currentTime
+        })
+    };
+
+    async makeNewBooking(data) {
+        try {
+            const url = `${backendUrl}/park-easy/api/user/booking`;
+            const response = await axios.post(url, data);
+            if (!response || !response.data || !response.data._id) throw response;
+            return response.data;
+        } catch(e) {
+            this.setState({
+                open: false
+            }, () => {
+                new Swal("Failed to book a slot. Please try again");
+            })
+        }
+    };
+
+    handleBookingConfirmation() {
+        const { fromTime, toTime, parkingSlot } = this.state;
+        const { name, description, spotImageUrl, _id, rate, address } = parkingSlot;
+
+        const totalAmount = Math.abs(toTime.getHours() - fromTime.getHours()) * rate;
+        const userId = get_cookie(document, 'userId');
+
+        if (!userId) {
+            console.error("Invalid User ID");
+        };
+        
+        const data = { 
+            parkingSpot: _id,
+            fromTime, 
+            toTime,
+            totalAmount,
+            description,
+            spotImageUrl,
+            userId,
+            name,
+            address
+
+        };
+
+        this.makeNewBooking(data)
+        .then((response) => {
+            this.setState({open: false});
+            new Swal("Booking confirmed");
+            window.open("/user/bookings", "_self");
+        }).catch(() => {
+            this.setState({open: false});
+            new Swal("Failed to reserve slot");
+        })
     };
 
     async getParkingLotInformation(lotID) {
         try {
             const url = `${backendUrl}/park-easy/api/parkingSpot/${lotID}`;
-            const response = await axios.get(url);
-            if (!(response && response.data)) throw response
-            else return response.data;
+            const response = await axios.get(url, {withCredentials: true});
+            if (!(response && response.data && response.data._id)) throw response
+            return response.data;
         } catch(e) {
             // Error fetching parking slots
             Swal.fire({
@@ -82,23 +152,17 @@ export default class ViewLot extends Component {
         }
     };
 
-    componentWillMount() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.setState({
-                    currentLat: position.coords.latitude,
-                    currentLng: position.coords.longitude,
-                })
-            })
-        };
-    };
-
     componentDidMount() {
 
         if (!navigator.geolocation) {
             new Swal('Geolocation is not supported by your browser');
         } 
         else {
+            const userId = get_cookie(document, 'userId');
+            if (!userId) {
+                window.open("/login", "_self");
+            };
+
             navigator.geolocation.getCurrentPosition((position) => {
                 this.setState({
                     currentLat: position.coords.latitude,
@@ -113,6 +177,7 @@ export default class ViewLot extends Component {
                         this.setState({
                             ...this.state,
                             parkingSlot: {
+                                "_id": parkingLotInformation._id,
                                 "description": parkingLotInformation.description,
                                 "address": `${parkingLotInformation.address.addressLine1} ${parkingLotInformation.address.addressLine2}`,
                                 "rate": parkingLotInformation.rate,
@@ -133,7 +198,8 @@ export default class ViewLot extends Component {
                                 ],
                                 "contact": {
                                     "name": parkingLotInformation.name
-                                }
+                                },
+                                spotImageUrl: parkingLotInformation.spotImageUrl
                             },  
                         })
                     })
@@ -148,7 +214,6 @@ export default class ViewLot extends Component {
         const maxWidth = 'sm';
         
         const coordinates = parkingSlot.coordinates || {};
-        console.log("Coordinates are ", coordinates);
         const slotImages = parkingSlot.images || [];
 
         return (
@@ -211,15 +276,6 @@ export default class ViewLot extends Component {
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        <TitleIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={parkingSlot.description} />
-                                </ListItemButton>
-                            </ListItem>
-
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
                                         <HomeIcon />
                                     </ListItemIcon>
                                     <ListItemText primary={parkingSlot.address} />
@@ -244,6 +300,15 @@ export default class ViewLot extends Component {
                                 </ListItemButton>
                             </ListItem>
 
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <TitleIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={parkingSlot.description} />
+                                </ListItemButton>
+                            </ListItem>
+
 
                         </List>
                     </Grid>
@@ -255,7 +320,9 @@ export default class ViewLot extends Component {
                                     <ListItemIcon>
                                         <DirectionsCarFilledIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={`${parseFloat(calc_distance(currentLat, currentLng, parkingSlot.coordinates.lat, parkingSlot.coordinates.lng).toPrecision(2))} KMs from current location`} />
+                                    <ListItemText 
+                                    primary={`${parseFloat(convertMetersToMiles(calc_distance(currentLat, currentLng, parkingSlot.coordinates.lat, parkingSlot.coordinates.lng)).toPrecision(2))} miles from current location`} 
+                                    />
                                 </ListItemButton>
                             </ListItem>
 
@@ -295,6 +362,7 @@ export default class ViewLot extends Component {
                         size="large" 
                         onClick={() => this.setState({open: true})}
                         fullWidth
+                        style = {{ backgroundColor: "green", borderRadius: "4vh"}}
                         >
                             Book at { parkingSlot.rate }$ per hour
                         </Button>
@@ -361,7 +429,7 @@ export default class ViewLot extends Component {
                                             label="From time"
                                             name="fromHrs"
                                             autoComplete="type"
-                                            // onChange={(e) => { setFrmHrs(e.target.value); setFromHrsError(false); setFrmHrsHelper(''); setToHrsHelper(''); setToHrsError(false); }}
+                                            onChange={(e) => this.handleTimeChange("fromTime", e.target.value)}
                                             autoFocus
                                             // value={fromHrs}
                                             InputLabelProps={{
@@ -387,7 +455,7 @@ export default class ViewLot extends Component {
                                             label="To time"
                                             name="toHrs"
                                             autoComplete="type"
-                                            // onChange={(e) => { setFrmHrs(e.target.value); setFromHrsError(false); setFrmHrsHelper(''); setToHrsHelper(''); setToHrsError(false); }}
+                                            onChange={(e) => this.handleTimeChange("toTime", e.target.value)}
                                             autoFocus
                                             InputLabelProps={{
                                                 shrink: true,
@@ -400,7 +468,7 @@ export default class ViewLot extends Component {
                             </Box>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={(e) => new Swal("Booked")}>Confirm</Button>
+                        <Button onClick={(e) => this.handleBookingConfirmation()}>Confirm</Button>
                         <Button onClick={(e) => this.setState({open: false})}>Close</Button>
                     </DialogActions>
                 </Dialog>

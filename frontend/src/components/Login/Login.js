@@ -15,6 +15,7 @@ import  {Component} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import Swal from 'sweetalert2';
 
 const theme = createTheme();
 
@@ -73,8 +74,6 @@ export default function SignIn() {
             }
 
         });
-
-
 
     };
 
@@ -154,7 +153,7 @@ export default function SignIn() {
                   <Button
                     type="submit"
                     fullWidth
-                    onClick
+                    // onClick // No handler assigned to onClick event
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >

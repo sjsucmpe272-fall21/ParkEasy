@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import "./../css/Maps.css";
 import { googleAccessKey } from "./../config";
+import MapMarker from "./MapMarker";
 
 class SimpleMap extends Component {
 
@@ -27,8 +28,6 @@ class SimpleMap extends Component {
 
 		const markerOptions = {}
 
-		console.log("Maps::Center::", center)
-
 		return (
 			// Important! Always set the container height explicitly
 			// <div style={{ height: '100vh', width: '100%' }}>
@@ -44,11 +43,10 @@ class SimpleMap extends Component {
 						(markers) ? (
 							markers.map((marker, index) => {
 								return (
-									<Marker
+									<MapMarker
 										key = {index}
 										lat={marker.lat}
 										lng={marker.lng}
-										options={markerOptions}
 									/>
 								)
 							})
@@ -58,13 +56,6 @@ class SimpleMap extends Component {
 			</div>
 		);
 	}
-}
-
-const Marker = props => {
-	return <>
-	  <div className="pin"></div>
-	  <div className="pulse"></div>
-	</>
-}
+};
 
 export default SimpleMap;

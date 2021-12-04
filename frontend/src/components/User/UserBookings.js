@@ -2,6 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import { Grid } from '@mui/material';
 import NavigationBar from './NavigationBar';
+import UserBookingList from './UserBookingList';
 
 class UserBookings extends Component  {
     
@@ -19,7 +20,20 @@ class UserBookings extends Component  {
                     </div>
                 </Grid>
 
-                <Grid spacing={0} item xs = {16} style = {{height: "85vh", width: "100%", border: "2px solid black"}}>
+                <Grid container xs = {16} style = {{height: "86vh", width: "100%", border: "0px solid black"}}>
+
+                    <Grid item xs = {16} style = {{border: "0px solid red", height: "10%"}}></Grid>
+
+
+                    <Grid item xs = {3.5} style = {{border: "0px solid red", height: "90%"}}></Grid>
+
+                    <Grid item xs = {10} style = {{border: "0px solid green", height: "90%"}}>
+                        <div style = {{ borderRadius: "4vh",  border: "2px solid black", height: "100%",  "overflow-y": "scroll", "overflow-x": "hidden"}}>
+                            <UserBookingList />
+                        </div>
+                    </Grid>
+
+                    <Grid item xs = {2.5} style = {{border: "0px solid blue", height: "90%"}}></Grid>
                 </Grid>
             </Grid>
         )

@@ -126,9 +126,11 @@ exports.userLogin = async function (req, res) {
         console.log(data);
 
         try{
+
             const user = await User.findOne({emailId: data.email});
             console.log("user "+user);
             if(!user){
+
                 res
                     .status(400)
                     .send(JSON.stringify({ message: "Invalid login credentials." }));
@@ -138,7 +140,7 @@ exports.userLogin = async function (req, res) {
                 if(result){
                     console.log("Login successful");
                     res.cookie('cookie',"user",{maxAge: 900000, httpOnly: false, path : '/'});
-                    res.cookie('userId',user._id,{maxAge: 900000, httpOnly: false, path : '/'});
+                    res.cookie('userId',String(user._id),{maxAge: 900000, httpOnly: false, path : '/'});
                     res.cookie('userEmail',user.emailId,{maxAge: 900000, httpOnly: false, path : '/'});
                     res.cookie('userFirstName',user.firstName,{maxAge: 900000, httpOnly: false, path : '/'});
                     res.cookie('userLastName',user.lastName,{maxAge: 900000, httpOnly: false, path : '/'});
@@ -159,7 +161,7 @@ exports.userLogin = async function (req, res) {
                 }
             }
         } catch(err){
-
+            res.status(500).send({message: "Something went wrong", err});
         }
 
       };
