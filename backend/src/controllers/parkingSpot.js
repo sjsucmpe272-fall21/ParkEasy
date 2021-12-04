@@ -221,7 +221,7 @@ exports.updateParkingSpot = (req,res) => {
 
 // delete a parkingspot based on parkingspot id in body
 exports.deleteParkingSpot = (req,res)=>{
-    ParkingSpot.findByIdAndDelete(req.body.parkingSpotId,(err,spot)=>{
+    ParkingSpot.findByIdAndDelete(req.params.parkingSpotId,(err,spot)=>{
         if (err){
             console.log(err);
             return res.status(400).json({

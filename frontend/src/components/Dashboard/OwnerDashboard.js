@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavigationBar from '../User/NavigationBar';
 import { backendUrl } from '../../config';
+import Cookies from 'react-cookies';
 // import parking_spot_default from '../../assets/images/parking_spot_default.jpeg';
 require('dotenv').config();
 
@@ -28,11 +29,13 @@ export default function OwnerDashBoard() {
   const navigate = useNavigate();
 
   useEffect(async () => {
-    const ownerID = sessionStorage.getItem('userId');
-    const url = `${backendUrl}/park-easy/api/parkingSpot/getAll`;
+    const url = `${backendUrl}/park-easy/api/parkingSpot/spots`;
+    const ownerId = Cookies.load('userId');
     console.log(url);
-    const response = await axios.get(url);
+    const response = await axios.post(url, {userId: ownerId});
     setCards(response.data);
+    sessionStorage.removeItem('selectedParkingId');
+    sessionStorage.removeItem('action');
     console.log(cards);
   }, []);
 
@@ -53,9 +56,14 @@ export default function OwnerDashBoard() {
     navigate('/owner/add-parkinglot');
   };
 
-  const onViewBookings = () => {
-    navigate('/owner/bookings');
-  };
+  const onDeleteParking = (parking) => {
+     const url = `${backendUrl}/park-easy/api/parkingSpot/delete/${parking._id}`;
+     axios.delete(url);
+     let newCards = [...cards];
+     newCards = newCards.filter( item => item._id!==parking._id);
+     setCards(newCards);
+  }
+
 
   return (
     <>
@@ -91,7 +99,6 @@ export default function OwnerDashBoard() {
                 justifyContent="center"
               >
                 <Button variant="contained" onClick={() => onAddParking()}>Add Parking</Button>
-                <Button variant="outlined" onClick={() => onViewBookings()}>View Bookings</Button>
               </Stack>
             </Container>
           </Box>
@@ -147,6 +154,7 @@ export default function OwnerDashBoard() {
                     <CardActions>
                       <Button size="small" onClick={() => onEditParking(card)}>Edit</Button>
                       <Button size="small" onClick={() => onViewParking(card)}>View</Button>
+                      <Button size="small" onClick={() => onDeleteParking(card)}>Delete</Button>
                     </CardActions>
                   </Card>
                 </Grid>

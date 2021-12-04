@@ -54,7 +54,8 @@ export default class SignUp extends React.Component{
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
 
-                    this.props.history.push("/login");
+                    // this.props.history.push("/login");
+                    window.open("/login", "_self")
 
                 }
             })
