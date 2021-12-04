@@ -41,7 +41,7 @@ const ParkingList = (props) => {
                                 divider={true}
                                 >
                                     <ListItemAvatar style = {{width: "30%"}}>
-                                        <Avatar alt="Remy Sharp" src = {lot.spotImageUrl} style={{ height: '20vh', width: '100%', borderRadius: "0" }}/>
+                                        <Avatar alt="Remy Sharp" src = {lot.spotImageUrl} style={{ border: "1px solid black", height: '20vh', width: '100%', borderRadius: "0" }}/>
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={lot.title}
@@ -62,7 +62,7 @@ const ParkingList = (props) => {
                                                     parseFloat(
                                                         convertMetersToMiles(calc_distance(props.currentLat, props.currentLng, lot.location.coordinates[1], lot.location.coordinates[0]))
                                                     ).toPrecision(2)    
-                                                } miles
+                                                } miles away
                                             `}
                                         </div>
                                     </ListItemButton>
